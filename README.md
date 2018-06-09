@@ -117,10 +117,10 @@ OP_RETURN OUTPUT:
 | Bytes       | Name          | Description  |
 | ------------- |-------------| -----|
 | 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
+| 1     | Version      |   Protocol can be modified in the future |
 | 6 | Nonce      |    Arbitrary sequence number |
 | 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
+| 1 | Phase      |   2 indicates acceptance |
 | 32 | Hash       |   Hash of secret number |
 | 8 | Amount      |    Bet amount in satoshis |
 
@@ -135,10 +135,10 @@ OP_RETURN OUTPUT:
 | Bytes       | Name          | Description  |
 | ------------- |-------------| -----|
 | 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
+| 1     | Version      |   Protocol can be modified in the future |
 | 6 | Nonce      |    Arbitrary sequence number |
 | 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
+| 1 | Phase      |   2 indicates acceptance |
 | 32 | Hash       |   Hash of secret number |
 | 8 | Amount      |    Bet amount in satoshis |
 
@@ -153,10 +153,10 @@ OP_RETURN OUTPUT:
 | Bytes       | Name          | Description  |
 | ------------- |-------------| -----|
 | 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
+| 1     | Version      |   Protocol can be modified in the future |
 | 6 | Nonce      |    Arbitrary sequence number |
 | 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
+| 1 | Phase      |   3 indicates funding |
 | 32 | Hash       |   Hash of secret number |
 | 20 | P2SH addr    |    Built deterministcally |
 
@@ -170,10 +170,10 @@ OP_RETURN OUTPUT:
 | Bytes       | Name          | Description  |
 | ------------- |-------------| -----|
 | 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
+| 1     | Version      |   Protocol can be modified in the future |
 | 6 | Nonce      |    Arbitrary sequence number |
 | 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
+| 1 | Phase      |   4 indicates signing |
 | 20 | P2SH addr    |    Built deterministcally |
 | 73 | Signature | Sighash ALL|ANYONECANPAY |
 
