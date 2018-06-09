@@ -44,7 +44,7 @@ Alice can sign for her public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND    
  
 **Step 3.** Bob deterministically ,independently creates S1 and verifies the script hash matches Alice’s S1.
 
-**Step 4.** Bob creates a transaction (T1) spending Alice’s funds from A1 to S1 and from Bob’s address (B1)  to S1.  He signs his input over all outputs with SIGHASH type ALL|ANYONECANPAY.  (Note that it is critical that Alice waits for Bob to sign first so that he does not discover her secret.)
+**Step 4.** Bob creates a transaction (T1) spending Alice’s funds from A1 to S1 and from Bob’s address (B1)  to S1.  He signs his input over all outputs with SIGHASH type ALL|ANYONECANPAY.  (Note that it is critical that Alice waits for Bob to sign first so that he does not discover her secret.)  He gives the signature to Alice.
 
 **Step 5.** Alice then signs (T1) , revealing the secret value “A”.
 
