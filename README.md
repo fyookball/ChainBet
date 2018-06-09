@@ -239,7 +239,7 @@ Here is a (probably incomplete) list of thoughts and considerations:
 
 11. In the case that Alice doesn’t publish the transaction in a timely manner following Bob’s signing, Bob should sweep the funds back soon to reclaim them and  so he doesn’t have to worry about keeping his application online.  
 
-12 Participants need to be online generally.
+12. Participants need to be online generally.
 
 13. It is important that Bob can deterministically generate that which he needs.  We assume the current blockheight is used in reference to the timelocks.
 
