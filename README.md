@@ -35,9 +35,9 @@ We can detail the entire commitment scheme as follows:
 
 **Step 2.** Alice creates a smart contract address S1 that can be unlocked if…
 
-Alice can sign for her public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND       a+b is an even number.
+Alice can sign for her public key AND Hash(A)= HASH-A AND Hash(b)=HASH-B AND       A+B is an even number.
 
-...or if Bob can sign for his public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND       a+b is an odd number.
+...or if Bob can sign for his public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND       A+B is an odd number.
 
 ...or if Alice can sign for her public key and the transaction is more than an hour old.
  
@@ -47,7 +47,7 @@ Alice can sign for her public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND    
 
 **Step 5.** Alice then signs (T1) , revealing the secret value “A”.
 
-**Step 6.** The funds are now in the multisignature address.  Bob knows the secret A and , using his own secret, can determine if he won or lost.  If he won, he can claim the funds.  If he lost, he can reveal his secret as a courtesy and allow Alice to claim the funds immediately.  If he does not extend this courtesy, Alice can claim the funds by default after 1 hour.
+**Step 6.** The funds are now in the multisignature address.  Bob knows the secret A and , using his own secret B, can determine if he won or lost.  If he won, he can claim the funds.  If he lost, he can reveal his secret as a courtesy and allow Alice to claim the funds immediately.  If he does not extend this courtesy, Alice can claim the funds by default after 1 hour.
 
 # Messaging Phases
 
