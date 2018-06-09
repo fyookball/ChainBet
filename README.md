@@ -55,7 +55,7 @@ Finding coinflip partners can happen using OP_RETURN based blockchain messages. 
 
 Note that the enumeration of message descriptions below does not correspond exactly to the above steps in the commitment scheme because the communication messages are a separate part of the protocol.
 
-Messaging will consist of 5 several communication phases.
+Messaging will consist of 5 communication phases.
 
 ## Phase 1: Announcement
 
