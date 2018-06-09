@@ -36,7 +36,7 @@ We can detail the entire commitment scheme as follows:
 
 **Step 2.** Alice creates a smart contract address S1 that can be unlocked if…
 
-	Alice can sign for her public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND       a+b is an even number.
+Alice can sign for her public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND       a+b is an even number.
 
 ...or if Bob can sign for his public key AND Hash(a)= HASH-A AND Hash(b)=HASH-B AND       a+b is an odd number.
 
@@ -82,6 +82,8 @@ If Bob realizes he lost the bet, he can message Alice to allow her to quickly cl
 
 ## Message 1a (Alice Announcement)
 
+OP_RETURN OUTPUT:
+
 | Bytes       | Name          | Description  |
 | ------------- |-------------| -----|
 | 4     | Protocol prefix identifier | TBD |
@@ -90,5 +92,40 @@ If Bob realizes he lost the bet, he can message Alice to allow her to quickly cl
 | 1 | Modulus      |    Reduces collisions |
 | 1 | Phase      |   1 indicates announcement |
 | 8 | Amount      |    Bet amount in satoshis |
+
+
+## Message 1b (Bob Announcement)
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   1 indicates announcement |
+| 8 | Amount      |    Bet amount in satoshis |
+
+
+
+## Message 2a (Alice Acceptance)
+PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO BOB
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   1 indicates announcement |
+| 1 | Hash       |   Hash of secret number |
+| 8 | Amount      |    Bet amount in satoshis |
+
+
+
+
+
 
 aa
