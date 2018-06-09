@@ -198,10 +198,55 @@ OP_RETURN OUTPUT:
 | 1 | Phase      |   5 indicates resignation |
 | 32| Secret value    |  Actual secret after loss| 
 
+# Use of Modulus to Reduce Collisions
+
+Finding partners to wager is handled with the nonce.  In the case when protocol usage is modest, an Alice can send an announcement message with an even numbered nonce and a Bob can join with a corresponding (incremented) odd numbered nonce.
+
+**In the basic usage, Alice is always assumed to be even, and the Alice nonce must always be 1 less than the Bob nonce.  (10 , 11) is valid but (11, 12) is invalid.**
+
+If usage were to accelerate, this system would break down because of multiple participants frequently using the same nonces.
+
+For this, we can use the Modulus field.  With a value below 3, the optional functionality is ignored.  For values 3 or higher, we use a different scheme:  Given the Modulus field **m** and nonce **n**, n  should be matched with the next highest number **v**  where n mod m = v nod m.
+
+For example, if Modulus field is 3, then nonce 12 Alice should be paired with nonce 15 Bob, 13 pairs with 16, and so on. For Modulus field 4, nonce 12 pairs to 16, 13 pairs to 17, etc.
+
+The general idea is that when participants are being added quickly, they should “space themselves out”.  More thought should be put into the details of how this would be implemented in practice.
+
+# Implementation Considerations
+
+Here is a (probably incomplete) list of thoughts and considerations:
+
+1. Applications implementing the protocol need to look at the mempool to read the announcements.  Mempool alone (rather than going back to prior blocks) should be sufficient to find players once the protocol has some usage.
+
+2. The highest nonce should normally be used but there needs to be logic to handle gaps in the situation when a bad actor makes a large jump.
+
+3. Note that the use of a separate “acceptance” step can eliminate collisions.
+
+4. When Modulus > 3 , the lower number is always assumed to be Alice.  
+
+5. Alice always wins the bet on “even” (regardless of nonce)
+
+6. Direct messages between participants  make blockchain scanning minimal.
+
+
+7. In the case Bob disappears after Alice creates the funding address A1, she can probably still use the address in the next round.
+
+8. Participants need to check for double spends.
+
+9. Some data passed between participants is redundant (for example the secret hash value is passed in the funding round, but it makes implementation easier and also supports simultaneous bets with the same partners.  Things can be made more efficient in future versions.
+
+10. Messaging address public keys will be assumed for the smart contract.
+
+11. In the case that Alice doesn’t publish the transaction in a timely manner following Bob’s signing, Bob should sweep the funds back soon to reclaim them and  so he doesn’t have to worry about keeping his application online.  
+
+12 Participants need to be online generally.
+
+13. It is important that Bob can deterministically generate that which he needs.  We assume the current blockheight is used in reference to the timelocks.
+
+14. The bet amounts need to match (obviously)
+
+15.  The secret values chosen must be large enough to avoid rainbow table attacks.
 
 
 
-
-
-
-aa
+ 
