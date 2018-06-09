@@ -174,7 +174,7 @@ OP_RETURN OUTPUT:
 | 1 | Modulus      |    Reduces collisions |
 | 1 | Phase      |   4 indicates signing |
 | 20 | P2SH addr    |    Built deterministcally |
-| 73 | Signature | Sighash ALL|ANYONECANPAY |
+| 73 | Signature | Sighash ALL ANYONECANPAY |
 
 
 Note: After phase 4, no more special communication messages are required.  At this point, Alice will have received Bob’s signature and she can fully construct and broadcast the funding transaction, revealing her secret.  Bob will then claim the funds if he wins.  If he does not claim a win within the allotted time, Alice will claim the funds by default.  
