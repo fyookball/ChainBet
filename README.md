@@ -246,6 +246,9 @@ Here is a (probably incomplete) list of thoughts and considerations:
 
 15.  The secret values chosen must be large enough to avoid rainbow table attacks.
 
+## Author
+
+Jonald Fyookball
 
 
  
