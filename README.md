@@ -45,7 +45,7 @@ Alice can sign for her public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND    
 
 **Step 4.** Bob creates a transaction (T1) spending Alice’s funds from A1 to S1 and from Bob’s address (B1)  to S1.  He signs his input over all outputs with SIGHASH type ALL|ANYONECANPAY.  (Note that it is critical that Alice waits for Bob to sign first so that he does not discover her secret.)  He gives the signature to Alice.
 
-**Step 5.** Alice then signs (T1) , revealing the secret value “A”.
+**Step 5.** Alice then signs and broadcasts (T1) , revealing the secret value “A”.
 
 **Step 6.** The funds are now in the multisignature address.  Bob knows the secret A and , using his own secret B, can determine if he won or lost.  If he won, he can claim the funds.  If he lost, he can reveal his secret as a courtesy and allow Alice to claim the funds immediately.  If he does not extend this courtesy, Alice can claim the funds by default after 1 hour.
 
