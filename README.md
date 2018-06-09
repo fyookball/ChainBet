@@ -6,8 +6,8 @@ hello
 
 - one thing
 
-| Tables        | Are           | Cool  |
+| Bytes       | Name          | Description  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   The protocol can be modified in the future without changing the prefix identifier. |
+| 6 | Nonce      |    Arbitrary sequence number |
