@@ -35,7 +35,7 @@ We can detail the entire commitment scheme as follows:
 
 **Step 2.** Alice creates a smart contract address S1 that can be unlocked if…
 
-Alice can sign for her public key AND Hash(A)= HASH-A AND Hash(b)=HASH-B AND       A+B is an even number.
+Alice can sign for her public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND       A+B is an even number.
 
 ...or if Bob can sign for his public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND       A+B is an odd number.
 
