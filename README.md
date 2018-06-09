@@ -111,6 +111,7 @@ OP_RETURN OUTPUT:
 
 ## Message 2a (Alice Acceptance)
 PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO BOB
+
 OP_RETURN OUTPUT:
 
 | Bytes       | Name          | Description  |
@@ -120,8 +121,83 @@ OP_RETURN OUTPUT:
 | 6 | Nonce      |    Arbitrary sequence number |
 | 1 | Modulus      |    Reduces collisions |
 | 1 | Phase      |   1 indicates announcement |
-| 1 | Hash       |   Hash of secret number |
+| 32 | Hash       |   Hash of secret number |
 | 8 | Amount      |    Bet amount in satoshis |
+
+
+
+
+## Message 2b (Bob Acceptance)
+PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   1 indicates announcement |
+| 32 | Hash       |   Hash of secret number |
+| 8 | Amount      |    Bet amount in satoshis |
+
+
+
+
+## Message 3 (Alice Funding)
+PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO BOB
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   1 indicates announcement |
+| 32 | Hash       |   Hash of secret number |
+| 20 | P2SH addr    |    Built deterministcally |
+
+
+
+## Message 4 (Bob Signing)
+PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   1 indicates announcement |
+| 20 | P2SH addr    |    Built deterministcally |
+| 73 | Signature | Sighash ALL|ANYONECANPAY |
+
+
+Note: After phase 4, no more special communication messages are required.  At this point, Alice will have received Bob’s signature and she can fully construct and broadcast the funding transaction, revealing her secret.  Bob will then claim the funds if he wins.  If he does not claim a win within the allotted time, Alice will claim the funds by default.  
+
+Optionally (but recommended), Bob can be a gracious loser and send a resignation message revealing his secret to Alice, enhancing the user experience.
+
+
+
+## Message 5 (Bob Resignation)
+PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name          | Description  |
+| ------------- |-------------| -----|
+| 4     | Protocol prefix identifier | TBD |
+| 1     | Version      |   Protocol can be modified in the future. |
+| 6 | Nonce      |    Arbitrary sequence number |
+| 1 | Modulus      |    Reduces collisions |
+| 1 | Phase      |   5 indicates resignation |
+| 32| Secret value    |  Actual secret after loss| 
+
 
 
 
