@@ -4,11 +4,11 @@
 
 ChainBet is proposed Bitcoin Cash protocol to enable on-chain betting.  This initial proposal focuses on a simple coin flip bet, but the principles could be extrapolated to enable more elaborate configurations.  The protocol consists of 2 components: a commitment scheme to enable a trustless wager, and an on-chain messaging system to facilitate communication. 
 
-##Motivation
+## Motivation
 
 Since paleolithic times, humans have engaged in games of chance, and probably always will.  Blockchain technology can increase the fairness, transparency, and safety of these activities.  The Bitcoin Cash ecosystem can gain more users and more transaction volume by providing a trustless gaming mechanism.
 
-##Summary
+## Summary
 
 To perform a trustless coinflip wager, Alice and Bob should each create secret values.  If the sum of the values is even, Alice wins the bet.  If the sum of the values is odd, Bob wins the bet.  
 Alice and Bob will use a cryptographic  scheme where both parties can lock in the bet and reveal their secrets fairly.
@@ -17,7 +17,7 @@ In addition, there is a messaging component of the protocol so that the parties 
 
 An app will still be required on the user end to use the protocol, to send transactions from the users’ addresses.
  
-#Commitment Scheme
+# Commitment Scheme
 
 Alice and Bob begin by each creating secret values, and then creating a hash of those values which serve as cryptographic commitments.
 
