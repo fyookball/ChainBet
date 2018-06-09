@@ -10,8 +10,7 @@ Since paleolithic times, humans have engaged in games of chance, and probably al
 
 ## Summary
 
-To perform a trustless coinflip wager, Alice and Bob should each create secret values.  If the sum of the values is even, Alice wins the bet.  If the sum of the values is odd, Bob wins the bet.  
-Alice and Bob will use a cryptographic  scheme where both parties can lock in the bet and reveal their secrets fairly.
+To perform a trustless coinflip wager, Alice and Bob should each create secret values.  If the sum of the values is even, Alice wins the bet.  If the sum of the values is odd, Bob wins the bet.  Alice and Bob will use a cryptographic  scheme where both parties can lock in the bet and reveal their secrets fairly.
 
 In addition, there is a messaging component of the protocol so that the parties do not have to send any extraneous communication through the internet.  They can use the blockchain for everything.  Moreover, multiple parties can participate and match themselves into coinflip betting pairs, thus creating a virtual casino that functions nearly entirely on the blockchain.  
 
