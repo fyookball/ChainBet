@@ -2,7 +2,7 @@
  
 A trustless version of an open, ascending price auction can be constructed on the BCH blockchain.  In this context we define trustless to mean that A) the seller is guaranteed to receive the funds from the highest bidder, and B) Only the final, highest paying bidder will be paying; all losing, lower bids will be guarnateed to be returned.   (Note that in this context trustless does not mean the seller is guaranteed to physically deliver the goods being purchased.)
 
-This is accomplished using a set of secrets.  Each time someone is outbid, a secret is revealed that releases funds back to the losing bidder and sets up the next secret for the new high bidder.
+This is accomplished using a set of secrets.  Each time someone is outbid, a secret is revealed that releases funds back to the losing bidder while the next secret is created for the new high bidder.
 
 ## OPENING BID
 
