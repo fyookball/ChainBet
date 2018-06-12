@@ -168,24 +168,38 @@ OP_RETURN OUTPUT:
 | 72| Participant Signature 1 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Bob's** P2SH funds so she can submit the bet transaction to the network. Sigtype hash ALL \| ANYONECANPAY |
 | 72| Participant Signature 2 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Alice's** P2SH funds so she can submit the bet transaction to the network Sigtype hash ALL \| ANYONECANPAY |
 
-## Phase 5: Escrow and Funding Transactions
+## Phase 5: Funding Transactions
 
-Alice should now have both of Bob's signatures, so she can spend from both escrow addresses to create the (main) funding transaction.  Alice should wait until both escrow transactions have at least one confirmation before broadcasting the funding transaction, she risks a double spend attack where Bob learns her secret, discovers he has lost the bob, and then tries to double spend the input to the Bob escrow account.
+Alice should now have both of Bob's signatures, so she can spend from both escrow addresses to create the (main) funding transaction.  Alice should wait until both escrow transactions have at least one confirmation before broadcasting the funding transaction. Otherwise, she risks a double spend attack where Bob learns her secret, discovers he has lost the bet, and then tries to double spend the input to the Bob escrow account.
+
+Using a shorthand notation where Alice's Secret is "A" and the hash is "HASH_A", and Bob's Secret is "B" and its hash is "HASH_B",
+then we can say that the main P2SH address is a script that allows the funds to be spent if:
+
+Alice can sign for her public key AND Hash(A)= HASH_A AND Hash(B)=HASH_B AND A+B is an even number.
+
+...or if Bob can sign for his public key AND Hash(A)= HASH_A AND Hash(B)=HASH_B AND A+B is an odd number.
+
+...or if Alice can sign for her public key and the transaction is more than 4 blocks old.
+
+
+OP_IF 
+    OP_IF 
+        OP_HASH160 <bobLosingCommitment> OP_EQUALVERIFY 
+    OP_ELSE 
+        "6 blocks" OP_CHECKSEQUENCEVERIFY OP_DROP 
+    OP_ENDIF 
+    <alicePubkey> OP_CHECKSIG 
+OP_ELSE 
+    OP_DUP OP_HASH160 <bobCommitment> OP_EQUALVERIFY 
+    OP_OVER OP_HASH160 <aliceCommitment> OP_EQUALVERIFY 
+    OP_4 OP_SPLIT OP_DROP OP_BIN2NUM 
+    OP_SWAP OP_4 OP_SPLIT OP_DROP OP_BIN2NUM 
+    OP_ADD OP_2 OP_MOD OP_0 OP_EQUALVERIFY 
+    <bobPubkey> OP_CHECKSIG 
+OP_ENDIF
 
 
  
- 
-
-This message allows Alice to tell Bob she is proceeding with the wager, and the P2SH of the address she has created in accordance with the commitment scheme.  Bob should deterministically verify this address.
-
-## Phase 4: Bob signing
-
-This message allows Bob to pass to Alice the signature needed for the funding transaction, in accordance with the commitment scheme.
-
-## Phase 5: Bob resignation
-
-If Bob realizes he lost the bet, he can message Alice to allow her to quickly claim her winnings.  If Bob loses but does not send this message, Alice will eventually claim the winnings using the timeout.
-
 # Message Detail
 
 ## Message 1a (Alice Announcement)
