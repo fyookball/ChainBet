@@ -41,9 +41,7 @@ Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations i
 **Script:**
 
 OP_IF "8 blocks" 
-
     OP_CHECKSEQUENCEVERIFY <alicePubkey> 
-    
 OP_ELSE 
 
     OP_HASH160 <AliceCommitment> OP_EQUALVERIFY 
