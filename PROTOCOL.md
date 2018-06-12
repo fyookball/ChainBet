@@ -106,18 +106,36 @@ The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Ter
 
 ## Phase 1: Bet Offer Announcement
 
-d
+Alice advertises to the network that she is hosting a bet for anyone to accept.  She will wait until someone responds to accept her bet.
+ 
+NOTE: This unique identifier for this Bet will be the transaction id of the txn containing this OP_RETURN Message #1, herein referred to as <host_opreturn_txn_id>.
 
 
+OP_RETURN OUTPUT:
 
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------|
+| 1      | Phase | 0x01  | Phase 1 is "Bet Offer Announcement" |
+| 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
+| 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
+| 20 | Target Address \<target> | Optional.  Restricts offer to a specific bet participant. |
 
-Announcement messages indicate the intention to participate in a wager.  A nonce is used for general ordering and is set by checking the last seen nonce and incrementing.  The wager amount is also specified.
+ 
+## Phase 2: Bet Participant Acceptance
 
-## Phase 2: Acceptance
+After Bob detects Alice’s Phase 1 message, Bob responds to Alice’s bet announcement letting Alice know that he accepts her bet.  (there may have been others on the network whom also accept the bet, but Bob happens to be the first to accept her bet)
+ 
+NOTE: This transaction ID of the transaction containing this Message #2, herein referred to as the <participant_opreturn_txn_id>.
 
-If Alice and Bob have a “matching” set of nonces (for example 100 and 101), then they can each indicate acceptance of the wager by sending a transaction to each other containing the hash of their secret.
+OP_RETURN OUTPUT:
 
-## Phase 3: Alice funding
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
+| 1     | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
+| 65    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the public key that Alice should use when creating her p2sh input for the bet. |
+ 
+
 
 This message allows Alice to tell Bob she is proceeding with the wager, and the P2SH of the address she has created in accordance with the commitment scheme.  Bob should deterministically verify this address.
 
@@ -132,13 +150,6 @@ If Bob realizes he lost the bet, he can message Alice to allow her to quickly cl
 # Message Detail
 
 ## Message 1a (Alice Announcement)
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name         | Hex Value | Description  |
-| ------------- |-------------| -----|-----------------|
-| 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
-| 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
 
 
 ## Message 1b (Bob Announcement)
