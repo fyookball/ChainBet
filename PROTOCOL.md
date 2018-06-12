@@ -147,7 +147,7 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x03  | Phase 3 is " Bet Host Funding" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob have multiple bets going.|
 | 32  | Participant Txn Id   | \<participant_opreturn_txn_id>| This is Alice's acknowledgement that Bob is the participant. |
-| 65 | Host P2SH txid | \<host_p2sh_txid> | Bob needs this, so he can verify the Bet Host has committed her funds to the bet, and the bet is real. Bob will also need this so he can also see what Alice’s committed value is once she tries to spend the final bet. |
+| 65 | Host P2SH txid | \<host_p2sh_txid> | (Alice Escrow Address). Bob needs this, so he can verify the Bet Host has committed her funds to the bet, and the bet is real. Bob will also need this so he can also see what Alice’s committed value is once she tries to spend the final bet. |
 | 32 | Host Multi-sig Pub Key | \<AlicePubKey> | Bob needs this so he can construct his own P2SH (multisig) input. Bob also needs this so he can deterministically compute the Host's P2SH (multisig with value commitment). |
 
 
