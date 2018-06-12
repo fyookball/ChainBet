@@ -45,7 +45,7 @@ or:
 
 b) Bob's key AND secret B , where hash(B)= HASH_B. 
 
-When sending the money from the "Bob temporary escrow" to the  "Bob Main P2SH", Bob will sign first to prevent Alice's secret from being leaked without a certain bid.  Bob's signature is required to move funds from the escrow account so that the funds are certain to go to the proper "Main Bob P2SH".  If this was not a requirement, then for example: the Seller could wait till the auction was over, claim Alice's money, and then also claim Bob's money, revealing Alice's secret but too late for her to use it.
+When sending the money from the "Bob temporary escrow" to the  "Bob Main P2SH", Bob will sign first to prevent Alice's secret from being leaked without a guaranteed bid.  Bob's signature is required to move funds from the escrow account so that the funds are sure to go to the proper "Main Bob P2SH".  If this was not a requirement, then for example: the Seller could wait till the auction was over, claim Alice's money, and then also claim Bob's money, revealing Alice's secret but too late for her to use it.
 
 The extra step of creating an escrow address prevents a double spend attack where the Seller reveals Alice's secret at the same time as he accepts Bob's bid, only to have Bob's bid be doublespent.
 
