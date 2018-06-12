@@ -24,7 +24,7 @@ The scheme is based on a multisignature address and the idea is that Bob has the
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to funds hitting the main multisignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  The signature revealing the secret will be the final signature applied to the funding transaction, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
+To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  The signature revealing the secret will be the final signature applied to the funding transaction, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
 In addition, we need to consider the possibility of double spend attacks and provide a means of preventing them.
 
@@ -32,31 +32,49 @@ In addition, we need to consider the possibility of double spend attacks and pro
 
 To prepare this, Alice and Bob will each set up a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  Both escrow addreses will require both Alice and Bob's signature.  Each will also have its own emergency timelock option to retrieve the funds if one of the parties stops cooperating.
 
-**Alice Escrow Address
+## Alice Escrow Address
+
+The main purpose of Alice's escrow address is to reveal Alice's **Secret A** when spent.  It will require both Alice and Bob's signature plus the secret.  By requiring the secret, it reveals it to Bob, thus fulfilling that part of the commitment shceme.
+
+Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations in the situation when Bob abandonds the betting process.
+
+**Script:**
+
+OP_IF "8 blocks" 
+    OP_CHECKSEQUENCEVERIFY <alicePubkey> 
+OP_ELSE 
+    OP_HASH160 <AliceCommitment> OP_EQUALVERIFY 
+    OP_2 <alicePubkey> <bobPubkey> 
+    OP_2 OP_CHECKMULTISIG 
+OP_ENDIF
 
 
+## Bob Escrow Address
 
-**Bob Escrow Address
+The main purpose of Bob's escrow address is to prevent Bob from double spending.  Once the funding transaction is created, Alice's secret will be revealed.  If Bob sees that he has a loss, he could theoretically attempt to double spend his input to the funding transaction, thereby invalidating it.  
 
+By first moving the funds into escrow and requiring Alice's signature in addition to Bob's to spend, Bob cannot on his own attempt a doublespend.  
 
+Of course, it is necessary for the transaction that funds the escrow account to have at least 1 confirmation before the funding transaction is attempted, because otherwise Bob could doublespend that, invalidating both itself and the child transaction (the funding transaction).
+
+Just like Alice, Bob can also retrieve his own funds unilaterally after 8 confirmations in the situation when Alice abandonds the betting process.
+
+**Script:**
+
+OP_IF "8 blocks" 
+    OP_CHECKSEQUENCEVERIFY <bobPubkey> 
+OP_ELSE 
+    OP_2 <alicePubkey> <bobPubkey> 
+    OP_2 OP_CHECKMULTISIG 
+OP_ENDIF
+
+## Why Alice's Escrow Needs Bob's Signature
+
+Bob's escrow requires Alice's signature for the simple reason that it prevents Bob from double spending his input to the funding transaction.  However, it is not immediately obvious why Alice should also have Bob's signature, since she is not the one with the easy double spend opportunity: Once the funding transaction happens, Alice's secret is revealed and if Bob won, he could simply avoid any double spend attacks by waiting for the funding transaction to get 1 confirmation before claiming the win.  
+
+However, this is inefficient in the sense that it requires more confirmations.  Since funding Bob's escrow account already requires waiting for a confirmation, it makes sense to use that time to prevent Alice's funds from being double spent as well.  This renders it unnecessary for Bob to wait for an additional confirmation if he wins the bet.   
  
-
-
-
-
-The most essential component is that Alice's funds will be coming from an address that reveals her secret.  Alice and Bob will jointly create a transaction that funds   
-
-Alice and Bob will first prepare their inputs and send a joined transaction, with Bob signing his piece first -- revealing his hash but not his secret.  Alice will then sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.
-
-To prepare their inputs, 
-
-Alice and Bob will each prepare a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  To spend from either the escrow addresses requires the signatures of both partipants, although there will be an emergency timelock option to retrieve the funds if one of the parties stops cooperating.
-
-!!!  
-
-Alice will first move her funds to a special address that requires revealing her secret to spend.  Then Bob will create a joined transaction, signing his piece first -- revealing his hash but not his secret.  Alice will sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.  Finally, Bob can uncover the outcome of the bet.
-
-We can detail the entire commitment scheme as follows:
+## Commitment Scheme Detail 
 
 
 **Step 0.** Alice and Bob create secret values A, and B, respectively.  They then create hashes of these: Hash-A and Hash-B, and exchange hashes.
