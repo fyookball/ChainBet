@@ -24,7 +24,13 @@ The scheme is based on a multisignature address and the idea is that Bob has the
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to funds hitting the main multisignature smart contract.  Alice will first move her funds to a special address that requires revealing her secret to spend.  Then Bob will create a joined transaction, signing his piece first -- revealing his hash but not his secret.  Alice will sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.  Finally, Bob can uncover the outcome of the bet.
+To solve this problem, we add some extra steps prior to funds hitting the main multisignature smart contract.  Alice and Bob will first prepare their inputs and send a joined transaction, with Bob signing his piece first -- revealing his hash but not his secret.  Alice will then sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.
+
+To prepare their inputs, Alice and Bob will each prepare a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  To spend from either the escrow addresses requires the signatures of both partipants, although there will be an emergency timelock option to retrieve the funds if one of the parties stops cooperating.
+
+!!!  
+
+Alice will first move her funds to a special address that requires revealing her secret to spend.  Then Bob will create a joined transaction, signing his piece first -- revealing his hash but not his secret.  Alice will sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.  Finally, Bob can uncover the outcome of the bet.
 
 We can detail the entire commitment scheme as follows:
 
