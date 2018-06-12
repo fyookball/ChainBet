@@ -41,12 +41,19 @@ Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations i
 **Script:**
 
 OP_IF "8 blocks" 
+
     OP_CHECKSEQUENCEVERIFY <alicePubkey> 
+    
 OP_ELSE 
+
     OP_HASH160 <AliceCommitment> OP_EQUALVERIFY 
+    
     OP_2 <alicePubkey> <bobPubkey> 
+    
     OP_2 OP_CHECKMULTISIG 
+    
 OP_ENDIF
+
 
 
 ## Bob Escrow Address
@@ -57,7 +64,7 @@ By first moving the funds into escrow and requiring Alice's signature in additio
 
 Of course, it is necessary for the transaction that funds the escrow account to have at least 1 confirmation before the funding transaction is attempted, because otherwise Bob could doublespend that, invalidating both itself and the child transaction (the funding transaction).
 
-Just like Alice, Bob can also retrieve his own funds unilaterally after 8 confirmations in the situation when Alice abandonds the betting process.
+Alternatively, Bob can also retrieve his own funds unilaterally after 8 confirmations in the situation when Alice abandonds the betting process.
 
 **Script:**
 
