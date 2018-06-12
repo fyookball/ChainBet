@@ -181,7 +181,7 @@ Alice can sign for her public key AND Hash(A)= HASH_A AND Hash(B)=HASH_B AND A+B
 
 ...or if Alice can sign for her public key and the transaction is more than 4 blocks old.
 
-
+```
 OP_IF 
     OP_IF 
         OP_HASH160 <bobLosingCommitment> OP_EQUALVERIFY 
@@ -197,7 +197,7 @@ OP_ELSE
     OP_ADD OP_2 OP_MOD OP_0 OP_EQUALVERIFY 
     <bobPubkey> OP_CHECKSIG 
 OP_ENDIF
-
+```
 
  
 # Message Detail
