@@ -1,4 +1,4 @@
-# ChainBet - (working draft). see readme for version 1
+# ChainBet - protocol spec version 0.2
 
 ## Abstract
 
@@ -42,22 +42,15 @@ Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations i
 
 **Script:**
  
+``` 
 OP_IF "8 blocks" 
-
-    OP_CHECKSEQUENCEVERIFY <alicePubkey> 
-    
+    OP_CHECKSEQUENCEVERIFY <alicePubkey>   
 OP_ELSE 
-
     OP_HASH160 <AliceCommitment> OP_EQUALVERIFY 
-    
     OP_2 <alicePubkey> <bobPubkey> 
-    
     OP_2 OP_CHECKMULTISIG 
-    
-OP_ENDIF'''
-
-
-
+OP_ENDIF
+```
 ## Bob Escrow Address
 
 The main purpose of Bob's escrow address is to prevent Bob from double spending.  Once the funding transaction is created, Alice's secret will be revealed.  If Bob sees that he has a loss, he could theoretically attempt to double spend his input to the funding transaction, thereby invalidating it.  
@@ -70,17 +63,14 @@ Alternatively, Bob can also retrieve his own funds unilaterally after 8 confirma
 
 **Script:**
 
+```
 OP_IF "8 blocks" 
-
-    OP_CHECKSEQUENCEVERIFY <bobPubkey> 
-    
+    OP_CHECKSEQUENCEVERIFY <bobPubkey>   
 OP_ELSE 
-
     OP_2 <alicePubkey> <bobPubkey> 
-    
     OP_2 OP_CHECKMULTISIG 
-    
 OP_ENDIF
+```
 
 ## Why Alice's Escrow Needs Bob's Signature
 
@@ -100,15 +90,15 @@ The OP_RETURN payload uses this format:
 
 The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Terab/blob/master/spec/opreturn-prefix-guideline.md) with a value of **0x00424554** (ASCII equivalent of "BET"). The version_id is a one-byte value that can be used to upgrade the protocol in the future.  Currently, it shall be **0x01**.  protocol_id and version_id should be present in all OP_RETURN payloads but will be ommitted in the subsequent message detail descriptions.
 
-**Note that NOT all phases of the protocol use an OP_RETURN message.  Some instead consist of an escrow or funding transaction.**
-
+Note that Phase 5 does not include an OP_RETURN message but consists of the mainfunding transaction itself.
+ 
 # Protocol Phases
 
 ## Phase 1: Bet Offer Announcement
 
 Alice advertises to the network that she is hosting a bet for anyone to accept.  She will wait until someone responds to accept her bet.
  
-NOTE: This unique identifier for this Bet will be the transaction id of the txn containing this OP_RETURN Message #1, herein referred to as <host_opreturn_txn_id>.
+NOTE: This unique identifier for this Bet will be the transaction id of the txn containing this phase 1 message, herein referred to as <host_opreturn_txn_id>.
 
 
 OP_RETURN OUTPUT:
@@ -125,7 +115,7 @@ OP_RETURN OUTPUT:
 
 After Bob detects Alice’s Phase 1 message, Bob responds to Alice’s bet announcement letting Alice know that he accepts her bet.  (there may have been others on the network whom also accept the bet, but Bob happens to be the first to accept her bet)
  
-NOTE: This transaction ID of the transaction containing this Message #2, herein referred to as the <participant_opreturn_txn_id>.
+NOTE: This transaction ID of the transaction containing this phase 2 message, herein referred to as the <participant_opreturn_txn_id>.
 
 OP_RETURN OUTPUT:
 
@@ -168,7 +158,7 @@ OP_RETURN OUTPUT:
 | 72| Participant Signature 1 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Bob's** P2SH funds so she can submit the bet transaction to the network. Sigtype hash ALL \| ANYONECANPAY |
 | 72| Participant Signature 2 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Alice's** P2SH funds so she can submit the bet transaction to the network Sigtype hash ALL \| ANYONECANPAY |
 
-## Phase 5: Funding Transactions
+## Phase 5: Funding Transaction
 
 Alice should now have both of Bob's signatures, so she can spend from both escrow addresses to create the (main) funding transaction.  Alice should wait until both escrow transactions have at least one confirmation before broadcasting the funding transaction. Otherwise, she risks a double spend attack where Bob learns her secret, discovers he has lost the bet, and then tries to double spend the input to the Bob escrow account.
 
@@ -181,12 +171,14 @@ Alice can sign for her public key AND Hash(A)= HASH_A AND Hash(B)=HASH_B AND A+B
 
 ...or if Alice can sign for her public key and the transaction is more than 4 blocks old.
 
+**Script:**
+
 ```
 OP_IF 
     OP_IF 
         OP_HASH160 <bobLosingCommitment> OP_EQUALVERIFY 
     OP_ELSE 
-        "6 blocks" OP_CHECKSEQUENCEVERIFY OP_DROP 
+        "4 blocks" OP_CHECKSEQUENCEVERIFY OP_DROP 
     OP_ENDIF 
     <alicePubkey> OP_CHECKSIG 
 OP_ELSE 
@@ -198,173 +190,41 @@ OP_ELSE
     <bobPubkey> OP_CHECKSIG 
 OP_ENDIF
 ```
+The 256 bit secret numbers are converted to signed 32 bit integers using the new OP_SPLIT and OP_BIN2NUM. OP_MOD is also used to determine if the result is even or odd.
+
+By monitoring the blockchain, Bob can determine if he or Alice can claim the funds.   
+
+
+## Phase 6: Bet Participant Resignation
+
+After Bob detects Alice’s P2SH has been spent Bob will know the final bet transaction has been submitted to the network.  This message reveals Bob’s secret value so that Alice can immediately claim the funds if she won.
+
+This final message is not required for the Smart Contract to function properly.  It is purely to enhance the user experience for Alice if she wins.  If Bob did not send this message after he loses then Alice could still spend the bet after the bet's time lock expires to claim the funds.
 
  
-# Message Detail
-
-## Message 1a (Alice Announcement)
-
-
-## Message 1b (Bob Announcement)
-
 OP_RETURN OUTPUT:
 
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
-| 8 | Amount      |    Bet amount in satoshis |
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x06  | Phase 6 is " Bet Participant Resignation" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob have multiple bets going.|
+| 32  | Secret Value   | \<secret value>| Bob's secret value revelaed to Alice so she can see the math behind the bet's outcome. |
+  
+  
+# Considerations
+
+1. We assume the current blockheight is used when deterministically generating scripts.  
+2. 256 bit secrets are required.  Small secrets could be easily brute forced.
+3. Implementations can optionally choose not to require that escrow transactions get confirmations.  There is a trade-off of speed vs security which may be acceptable if the double-spend incentives for mining pools are negligible.
+4. We considered having messaging transactions send a minimal output between Alice and Bob to allow SPV wallets to more easily implement the protocol but decided that since they must monitor the blockchain for at least one of the components, then it is not adding much cost to continue to do that for all messages.  This is why messaging transactions send back to themselves.  Participants need to monitor OP_RETURN for all phases.
+5. We recommend that implementations spend the winning bet to the originating P2PKH address that created the original OP_RETURN advertisement or acceptance.
 
 
-
-## Message 2a (Alice Acceptance)
-PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO BOB
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   2 indicates acceptance |
-| 32 | Hash       |   Hash of secret number |
-| 8 | Amount      |    Bet amount in satoshis |
-
-
-
-
-## Message 2b (Bob Acceptance)
-PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   2 indicates acceptance |
-| 32 | Hash       |   Hash of secret number |
-| 8 | Amount      |    Bet amount in satoshis |
-
-
-
-
-## Message 3 (Alice Funding)
-PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO BOB
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   3 indicates funding |
-| 32 | Hash       |   Hash of secret number |
-| 20 | P2SH addr    |    Built deterministcally |
-
-
-
-## Message 4 (Bob Signing)
-PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   4 indicates signing |
-| 20 | P2SH addr    |    Built deterministcally |
-| 73 | Signature | Sighash ALL ANYONECANPAY |
-
-
-Note: After phase 4, no more special communication messages are required.  At this point, Alice will have received Bob’s signature and she can fully construct and broadcast the funding transaction, revealing her secret.  Bob will then claim the funds if he wins.  If he does not claim a win within the allotted time, Alice will claim the funds by default.  
-
-Optionally (but recommended), Bob can be a gracious loser and send a resignation message revealing his secret to Alice, enhancing the user experience.
-
-
-
-## Message 5 (Bob Resignation)
-PRIMARY OUTPUT: MINIMAL AMOUNT SENT TO ALICE
-
-OP_RETURN OUTPUT:
-
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   5 indicates resignation |
-| 32| Secret value    |  Actual secret after loss| 
-
-# Use of Modulus to Reduce Collisions
-
-Finding partners to wager is handled with the nonce.  In the case when protocol usage is modest, an Alice can send an announcement message with an even numbered nonce and a Bob can join with a corresponding (incremented) odd numbered nonce.
-
-**In the basic usage, Alice is always assumed to be even, and the Alice nonce must always be 1 less than the Bob nonce.  (10 , 11) is valid but (11, 12) is invalid.**
-
-If usage were to accelerate, this system would break down because of multiple participants frequently using the same nonces.
-
-For this, we can use the Modulus field.  With a value below 3, the optional functionality is ignored.  For values 3 or higher, we use a different scheme:  Given the Modulus field **m** and nonce **n**, n  should be matched with the next highest number **v**  where n mod m = v nod m.
-
-For example, if Modulus field is 3, then nonce 12 Alice should be paired with nonce 15 Bob, 13 pairs with 16, and so on. For Modulus field 4, nonce 12 pairs to 16, 13 pairs to 17, etc.
-
-The general idea is that when participants are being added quickly, they should “space themselves out”.  More thought should be put into the details of how this would be implemented in practice.
-
-# Implementation Considerations
-
-Here is a (probably incomplete) list of thoughts and considerations:
-
-1. Applications implementing the protocol need to look at the mempool to read the announcements.  Mempool alone (rather than going back to prior blocks) should be sufficient to find players once the protocol has some usage.
-
-2. The highest nonce should normally be used but there needs to be logic to handle gaps in the situation when a bad actor makes a large jump.
-
-3. Note that the use of a separate “acceptance” step can eliminate collisions.
-
-4. When Modulus > 3 , the lower number is always assumed to be Alice.  
-
-5. Alice always wins the bet on “even” (regardless of nonce)
-
-6. Direct messages between participants  make blockchain scanning minimal.
-
-
-7. In the case Bob disappears after Alice creates the funding address A1, she can probably still use the address in the next round.
-
-8. Participants need to check for double spends.
-
-9. Some data passed between participants is redundant (for example the secret hash value is passed in the funding round, but it makes implementation easier and also supports simultaneous bets with the same partners.  Things can be made more efficient in future versions.
-
-10. Messaging address public keys will be assumed for the smart contract.
-
-11. In the case that Alice doesn’t publish the transaction in a timely manner following Bob’s signing, Bob should sweep the funds back soon to reclaim them and  so he doesn’t have to worry about keeping his application online.  
-
-12. Participants need to be online generally.
-
-13. It is important that Bob can deterministically generate that which he needs.  We assume the current blockheight is used in reference to the timelocks.
-
-14. The bet amounts need to match (obviously)
-
-15.  The secret values chosen must be large enough to avoid rainbow table attacks.
-
-16. optional double spend
-
-17. op return output vs regular output
-
-## Author
+## Authors
 
 Jonald Fyookball
+James Cramer
+Chris Pacia
 
 
  
