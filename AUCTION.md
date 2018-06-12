@@ -44,6 +44,10 @@ or:
 
 b) Bob's key AND secret B , where hash(B)= HASH_B. 
 
+The process would repeat for Carol, who outbids Bob.  She would set up a temporary escrow address that would then reveal Bob's secret while funds are transferred to the main Carol auction address, and so on.
+
+Finally, when the auction ends, the Seller would claim the funds in the last address used.
+
 ## Notes
 
 1. When sending the money from the "Bob temporary escrow" to the "Bob Main P2SH", Bob's signature is not required, which prevents the case of Alice's secret being leaked (allowing her to cancel the bid) while Bob also cancels his bid.   
