@@ -135,14 +135,10 @@ If Bob realizes he lost the bet, he can message Alice to allow her to quickly cl
 
 OP_RETURN OUTPUT:
 
-| Bytes       | Name          | Description  |
-| ------------- |-------------| -----|
-| 4     | Protocol prefix identifier | TBD |
-| 1     | Version      |   Protocol can be modified in the future. |
-| 6 | Nonce      |    Arbitrary sequence number |
-| 1 | Modulus      |    Reduces collisions |
-| 1 | Phase      |   1 indicates announcement |
-| 8 | Amount      |    Bet amount in satoshis |
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------|
+| 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
+| 8     | Amount   | <amount> | Bet amount in Satohis for each participant. | 
 
 
 ## Message 1b (Bob Announcement)
