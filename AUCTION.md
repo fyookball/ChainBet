@@ -22,7 +22,7 @@ Typically there are more bids. For example, Bob wants to outbid Alice with a hig
 
 Bob will create a similar P2SH to the opening bid, but first will move his funds to a temporary escrow address.
 
-**Bob Temporary Escrow 
+**Bob Temporary Escrow** 
 
 can be unlocked with:
 
@@ -35,7 +35,7 @@ b. by Bob back to himself after some timelock.
 The timeout here prevents the seller from disappearing with both Alice's and Bob's money.  Assuming the Seller doesn't dissapear, once the money is in the escrow address, Bob and the Seller will
 create a joined transaction sending the money to the normal "Bob Main P2SH".
 
-**Bob Main P22H 
+**Bob Main P22H** 
 
 can be unlocked using:
 
