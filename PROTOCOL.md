@@ -26,7 +26,7 @@ The scheme is based on the parties funding a multisignature address and the prin
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature address.  Essentially, Alice and Bob jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
+To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature address.  Essentially, Alice and Bob jointly create the funding transaction using inputs from both Alice and Bob, with Alice's input coming from a script that requires revealing her secret.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
 In addition, we will provide a means of preventing double spend attacks with the use of escrow addresses.
 
@@ -36,7 +36,7 @@ To prepare, Alice and Bob will each set up a temporary "escrow" address to be us
 
 ## Alice Escrow Address
 
-The main purpose of Alice's escrow address is to reveal Alice's **Secret A** when spent.  It will require both Alice and Bob's signature plus the secret.  By requiring the secret, it reveals it to Bob, thus fulfilling that part of the commitment shceme.
+The main purpose of Alice's escrow address is to reveal Alice's **Secret A** when spent.  It will require both Alice and Bob's signature plus the secret.  By requiring the secret, it reveals it to Bob, thus fulfilling that part of the commitment scheme.
 
 Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations in the situation when Bob abandonds the betting process.
 
