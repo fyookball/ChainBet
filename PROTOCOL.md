@@ -159,7 +159,18 @@ Bob can then create his own (escrow) P2SH address which will be used as an input
 Once Bob verifies that Alice's P2SH has been submitted to the network he may wait for confirmations if he wants.  He must monitor the spending of Alice’s P2SH addresses in order to see Alice’s secret value.  If he doesn’t monitor spending of Alice’s P2SH input then he will not be able to try to claim a potential win.
 
  
+OP_RETURN OUTPUT:
 
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x04  | Phase 4 is " Bet Participant Funding" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob have multiple bets going.|
+| 32  | Participant Txn Id   | \<participant_opreturn_txn_id>|  Alice will need this so she can try to spend Bob’s side of the be. |
+| 72| Participant Signature 1 | \<participant_sig_1>| Alice will need this to sign Bob's P2SH funds so she can submit the bet transaction to the network. Sigtype hash ALL \| ANYONECANPAY |
+| 72| Participant Signature 2 | \<participant_sig_1>| Alice will need this to sign Alice's P2SH funds so she can submit the bet transaction to the network Sigtype hash ALL \| ANYONECANPAY |
+
+
+ 
  
 
 This message allows Alice to tell Bob she is proceeding with the wager, and the P2SH of the address she has created in accordance with the commitment scheme.  Bob should deterministically verify this address.
