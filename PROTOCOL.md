@@ -138,7 +138,7 @@ OP_RETURN OUTPUT:
 
 ## Phase 3: Bet Host Funding
 
-Alice detects Bob's Phase 2 message, she makes this announcement that she is accepting the bet with Bob (thus others whom also accepted Alice's original announcement will know that they are being ignored and should look for other bets).
+Alice detects Bob's Phase 2 message.  She then prepares her escrow address and funds it.  Then she sends this announcement to Bob, indicating acceptance of the bet with Bob (thus others whom also accepted Alice's original announcement will know that they are being ignored and should look for other bets).
 
 OP_RETURN OUTPUT:
 
@@ -150,6 +150,15 @@ OP_RETURN OUTPUT:
 | 65 | Host P2SH txid | \<host_p2sh_txid> | (Alice Escrow Address). Bob needs this, so he can verify the Bet Host has committed her funds to the bet, and the bet is real. Bob will also need this so he can also see what Alice’s committed value is once she tries to spend the final bet. |
 | 32 | Host Multi-sig Pub Key | \<AlicePubKey> | Bob needs this so he can construct his own P2SH (multisig) input. Bob also needs this so he can deterministically compute the Host's P2SH (multisig with value commitment). |
 
+## Phase 4: Bet Participant Funding
+
+After Bob detects the Phase 3 message from Alice, he will know that he is in fact the bet participant. He can first check that Alice created her P2SH address with the correct amount so he knows the bet is real.
+
+Bob can then create his own (escrow) P2SH address which will be used as an input to the main funding transaction.  Bob announces that he has submitted his P2SH to cover his side of the bet and passes the signatures for both P2SH addresses to Alice.
+
+Once Bob verifies that Alice's P2SH has been submitted to the network he may wait for confirmations if he wants.  He must monitor the spending of Alice’s P2SH addresses in order to see Alice’s secret value.  If he doesn’t monitor spending of Alice’s P2SH input then he will not be able to try to claim a potential win.
+
+ 
 
  
 
