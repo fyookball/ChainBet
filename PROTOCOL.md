@@ -154,7 +154,7 @@ OP_RETURN OUTPUT:
 
 After Bob detects the Phase 3 message from Alice, he will know that he is in fact the bet participant. He can first check that Alice created her P2SH address with the correct amount so he knows the bet is real.
 
-Bob can then create his own (escrow) P2SH address which will be used as an input to the main funding transaction.  Bob announces that he has submitted his P2SH to cover his side of the bet and passes the signatures for both P2SH addresses to Alice.
+Bob can then create his own (escrow) P2SH address which will be used as an input to the main funding transaction.  Bob funds this address, and announces that he has submitted his P2SH to cover his side of the bet, and passes the signatures for both P2SH addresses to Alice.
 
 Bob should now monitor the network, looking first for the spending of Alice's escrow address in order to see Alice's secret value.  Then he can calculate if we won the bet.
  
@@ -170,7 +170,9 @@ OP_RETURN OUTPUT:
 
 ## Phase 5: Escrow and Funding Transactions
 
-Alice should now have both of Bob's signatures, so she can spend from both escrow transactions and create the main funding transaction.  She should do this 
+Alice should now have both of Bob's signatures, so she can spend from both escrow addresses to create the (main) funding transaction.  Alice should wait until both escrow transactions have at least one confirmation before broadcasting the funding transaction, she risks a double spend attack where Bob learns her secret, discovers he has lost the bob, and then tries to double spend the input to the Bob escrow account.
+
+
  
  
 
