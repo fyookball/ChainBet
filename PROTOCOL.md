@@ -39,7 +39,7 @@ The main purpose of Alice's escrow address is to reveal Alice's **Secret A** whe
 Alternatively, Alice can retrieve the funds unilaterally after 8 confirmations in the situation when Bob abandonds the betting process.
 
 **Script:**
-
+'''
 OP_IF "8 blocks" 
     OP_CHECKSEQUENCEVERIFY <alicePubkey> 
 OP_ELSE 
@@ -50,7 +50,7 @@ OP_ELSE
     
     OP_2 OP_CHECKMULTISIG 
     
-OP_ENDIF
+OP_ENDIF'''
 
 
 
