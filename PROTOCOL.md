@@ -22,17 +22,17 @@ An app will still be required on the user end to use the protocol, to send trans
 
 Alice and Bob begin by each creating secret values, and then creating a hash of those values which serve as cryptographic commitments.
 
-The scheme is based on a multisignature address and the idea is that Bob has the responsibility to claim his winnings after learning Alice’s secret.  If he does not, Alice would be able to claim a win by default based on a time lock.  The default win would be necessary since Bob would be motivated to do nothing (keep his secret a secret) once he discovers he has lost the bet.
+The scheme is based on the parties funding a multisignature address and the principle that Bob has the responsibility to claim his winnings after learning Alice’s secret.  If he does not, Alice would be able to claim a win by default based on a time lock.  The default win would be necessary since Bob would be motivated to do nothing (keep his secret a secret) once he discovers he has lost the bet.
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
+To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature address.  Essentially, Alice and Bob jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
 In addition, we will provide a means of preventing double spend attacks with the use of escrow addresses.
 
 ## Escrow Preparation
 
-To prepare this, Alice and Bob will each set up a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  Both escrow addreses will require both Alice and Bob's signature.  Each will also have its own emergency timelock option to retrieve the funds if one of the parties stops cooperating.
+To prepare, Alice and Bob will each set up a temporary "escrow" address to be used as a holding place before creating the funding transaction.  Both escrow addreses will require both Alice's and Bob's signatures.  Each escrow address will also have its own emergency timelock option to retrieve the funds if one of the parties stops cooperating.
 
 ## Alice Escrow Address
 
@@ -87,39 +87,21 @@ OP_ENDIF
 Bob's escrow requires Alice's signature for the simple reason that it prevents Bob from double spending his input to the funding transaction.  However, it is not immediately obvious why Alice should also have Bob's signature, since she is not the one with the easy double spend opportunity: Once the funding transaction happens, Alice's secret is revealed and if Bob won, he could simply avoid any double spend attacks by waiting for the funding transaction to get 1 confirmation before claiming the win.  
 
 However, this is inefficient because it requires more confirmations.  Since funding Bob's escrow account already requires waiting for a confirmation, it makes sense to use that time to prevent Alice's funds from being double spent as well.  This renders it unnecessary for Bob to wait for an additional confirmation after the funding transaction is sent before claiming a win.   
- 
-## Commitment Scheme Detail 
+  
+## OP_RETURN Communication Messages
+
+The ChainBet protocol operates through a series of phases.  Some phases require a communication message to be sent across the network.  This is accomplished by broadcasting a BCH trasnsaction that contains an OP_RETURN output.  
+
+Not all phases of the protocol use an OP_RETURN message.  Some instead consist of a funding transaction.
+
+# Protocol Phases
+
+## Phase 1: Bet Offer Announcement
 
 
-**Step 0.** Alice and Bob create secret values A, and B, respectively.  They then create hashes of these: Hash-A and Hash-B, and exchange hashes.
 
-**Step 1.** Alice creates special address A1 and funds it.  A1 has a locking script that requires Alice’s signature as normal, but additionally requires a value (secret A) that hashes to Hash-A.
 
-**Step 2.** Alice creates a smart contract address S1 that can be unlocked if…
 
-Alice can sign for her public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND       A+B is an even number.
-
-...or if Bob can sign for his public key AND Hash(A)= HASH-A AND Hash(B)=HASH-B AND       A+B is an odd number.
-
-...or if Alice can sign for her public key and the transaction is more than an hour old.
- 
-**Step 3.** Bob deterministically ,independently creates S1 and verifies the script hash matches Alice’s S1.
-
-**Step 4.** Bob creates a transaction (T1) spending Alice’s funds from A1 to S1 and from Bob’s address (B1)  to S1.  He signs his input over all outputs with SIGHASH type ALL|ANYONECANPAY.  (Note that it is critical that Alice waits for Bob to sign first so that he does not discover her secret.)  He gives the signature to Alice.
-
-**Step 5.** Alice then signs and broadcasts (T1) , revealing the secret value “A”.
-
-**Step 6.** The funds are now in the multisignature address.  Bob knows the secret A and , using his own secret B, can determine if he won or lost.  If he won, he can claim the funds.  If he lost, he can reveal his secret as a courtesy and allow Alice to claim the funds immediately.  If he does not extend this courtesy, Alice can claim the funds by default after 1 hour.
-
-# Messaging Phases
-
-Finding coinflip partners can happen using OP_RETURN based blockchain messages.  A nonce system can be used for announcement and coordination of pairing.   Once an Alice-Bob pair is established, the participants can send minimally sized (i.e. 1 satoshi or dust limit) transactions to each other to continue the communication.
-
-Note that the enumeration of message descriptions below does not correspond exactly to the above steps in the commitment scheme because the communication messages are a separate part of the protocol.
-
-Messaging will consist of 5 communication phases.
-
-## Phase 1: Announcement
 
 Announcement messages indicate the intention to participate in a wager.  A nonce is used for general ordering and is set by checking the last seen nonce and incrementing.  The wager amount is also specified.
 
@@ -307,6 +289,10 @@ Here is a (probably incomplete) list of thoughts and considerations:
 14. The bet amounts need to match (obviously)
 
 15.  The secret values chosen must be large enough to avoid rainbow table attacks.
+
+16. optional double spend
+
+17. op return output vs regular output
 
 ## Author
 
