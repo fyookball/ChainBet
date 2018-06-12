@@ -136,6 +136,21 @@ OP_RETURN OUTPUT:
 | 65    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the public key that Alice should use when creating her p2sh input for the bet. |
  
 
+## Phase 3: Bet Host Funding
+
+Alice detects Bob's Phase 2 message, she makes this announcement that she is accepting the bet with Bob (thus others whom also accepted Alice's original announcement will know that they are being ignored and should look for other bets).
+
+OP_RETURN OUTPUT:
+
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x03  | Phase 3 is " Bet Host Funding" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob have multiple bets going.|
+| 32  | Participant Txn Id   | \<participant_opreturn_txn_id>| This is Alice's acknowledgement that Bob is the participant. |
+| 32 | Host P2SH txid | \<host_p2sh_txid> | 
+Bob needs this, so he can verify the Bet Host has committed her funds to the bet, and the bet is real. Bob will also need this so he can also see what Alice’s committed value is once she tries to spend the final bet. |
+
+
 
 This message allows Alice to tell Bob she is proceeding with the wager, and the P2SH of the address she has created in accordance with the commitment scheme.  Bob should deterministically verify this address.
 
