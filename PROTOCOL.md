@@ -1,4 +1,4 @@
-# ChainBet
+# ChainBet - (working draft). see readme for version 1
 
 ## Abstract
 
