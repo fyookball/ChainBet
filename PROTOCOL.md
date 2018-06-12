@@ -80,7 +80,7 @@ However, this is inefficient because it requires more confirmations.  Since fund
   
 ## OP_RETURN Communication Messages
 
-The ChainBet protocol operates through a series of phases.  Some phases require a communication message to be sent across the network.  This is accomplished by broadcasting a BCH trasnsaction that contains an OP_RETURN output.  
+The ChainBet protocol operates through 6 phases.  Most phases require a communication message to be sent across the network.  This is accomplished by broadcasting a BCH trasnsaction that contains an OP_RETURN output.  
 
 Each OP_RETURN transaction will be assumed to have outputs going back to the sender's originating address.  The output amount back to the sender will simply be the entire balance (for standard UTXOs) of the sender minus the txn fee.  This approach is simple and it minimizes the impacts to the UTXO set over time, making each OP_RETURN message like a sweep transaction.
 
@@ -90,7 +90,7 @@ The OP_RETURN payload uses this format:
 
 The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Terab/blob/master/spec/opreturn-prefix-guideline.md) with a value of **0x00424554** (ASCII equivalent of "BET"). The version_id is a one-byte value that can be used to upgrade the protocol in the future.  Currently, it shall be **0x01**.  protocol_id and version_id should be present in all OP_RETURN payloads but will be ommitted in the subsequent message detail descriptions.
 
-Note that Phase 5 does not include an OP_RETURN message but consists of the mainfunding transaction itself.
+Note that only Phase 5 does not include an OP_RETURN message but consists of the main funding transaction itself.
  
 # Protocol Phases
 
