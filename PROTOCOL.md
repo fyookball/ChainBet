@@ -24,9 +24,33 @@ The scheme is based on a multisignature address and the idea is that Bob has the
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to funds hitting the main multisignature smart contract.  Alice and Bob will first prepare their inputs and send a joined transaction, with Bob signing his piece first -- revealing his hash but not his secret.  Alice will then sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.
+To solve this problem, we add some extra steps prior to funds hitting the main multisignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  The signature revealing the secret will be the final signature applied to the funding transaction, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
-To prepare their inputs, Alice and Bob will each prepare a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  To spend from either the escrow addresses requires the signatures of both partipants, although there will be an emergency timelock option to retrieve the funds if one of the parties stops cooperating.
+In addition, we need to consider the possibility of double spend attacks and provide a means of preventing them.
+
+## Escrow Preparation
+
+To prepare this, Alice and Bob will each set up a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  Both escrow addreses will require both Alice and Bob's signature.  Each will also have its own emergency timelock option to retrieve the funds if one of the parties stops cooperating.
+
+**Alice Escrow Address
+
+
+
+**Bob Escrow Address
+
+
+ 
+
+
+
+
+The most essential component is that Alice's funds will be coming from an address that reveals her secret.  Alice and Bob will jointly create a transaction that funds   
+
+Alice and Bob will first prepare their inputs and send a joined transaction, with Bob signing his piece first -- revealing his hash but not his secret.  Alice will then sign and broadcast the transaction, revealing her secret and sending both parties’ funds to the main multisignature address.
+
+To prepare their inputs, 
+
+Alice and Bob will each prepare a temporary "escrow" P2SH address to be used as a holding place just before the funds are transferred into the main bet contract (script).  To spend from either the escrow addresses requires the signatures of both partipants, although there will be an emergency timelock option to retrieve the funds if one of the parties stops cooperating.
 
 !!!  
 
