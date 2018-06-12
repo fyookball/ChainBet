@@ -156,8 +156,7 @@ After Bob detects the Phase 3 message from Alice, he will know that he is in fac
 
 Bob can then create his own (escrow) P2SH address which will be used as an input to the main funding transaction.  Bob announces that he has submitted his P2SH to cover his side of the bet and passes the signatures for both P2SH addresses to Alice.
 
-Once Bob verifies that Alice's P2SH has been submitted to the network he may wait for confirmations if he wants.  He must monitor the spending of Alice’s P2SH addresses in order to see Alice’s secret value.  If he doesn’t monitor spending of Alice’s P2SH input then he will not be able to try to claim a potential win.
-
+Bob should now monitor the network, looking first for the spending of Alice's escrow address in order to see Alice's secret value.  Then he can calculate if we won the bet.
  
 OP_RETURN OUTPUT:
 
@@ -169,7 +168,9 @@ OP_RETURN OUTPUT:
 | 72| Participant Signature 1 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Bob's** P2SH funds so she can submit the bet transaction to the network. Sigtype hash ALL \| ANYONECANPAY |
 | 72| Participant Signature 2 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Alice's** P2SH funds so she can submit the bet transaction to the network Sigtype hash ALL \| ANYONECANPAY |
 
+## Phase 5: Escrow and Funding Transactions
 
+Alice should now have both of Bob's signatures, so she can spend from both escrow transactions and create the main funding transaction.  She should do this 
  
  
 
