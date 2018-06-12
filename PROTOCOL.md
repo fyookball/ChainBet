@@ -24,7 +24,7 @@ The scheme is based on a multisignature address and the idea is that Bob has the
 
 But there is a flaw: What compels Alice to reveal the secret, knowing she would be guaranteed to win by “time out” if she doesn’t reveal it?  Note that Alice’s secret can’t be part of the multisignature script because Bob would then know it before he has committed funds.  And there is no apparent way to allow Bob to cancel the script if Alice doesn’t share her secret since he could always claim it wasn’t shared if he sees a loss.
 
-To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  The signature revealing the secret will be the final signature applied to the funding transaction, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
+To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
 In addition, we need to consider the possibility of double spend attacks and provide a means of preventing them.
 
