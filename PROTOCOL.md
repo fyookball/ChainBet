@@ -118,7 +118,7 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x01  | Phase 1 is "Bet Offer Announcement" |
 | 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
 | 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
-| 20 | Target Address \<target> | Optional.  Restricts offer to a specific bet participant. |
+| 20 | Target Address | \<target> | Optional.  Restricts offer to a specific bet participant. |
 
  
 ## Phase 2: Bet Participant Acceptance
