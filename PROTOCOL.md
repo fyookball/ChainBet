@@ -26,7 +26,7 @@ But there is a flaw: What compels Alice to reveal the secret, knowing she would 
 
 To solve this problem, we add some extra steps prior to the **funding transaction** which moves funds to the primary multiignature smart contract.  Essentially, Alice and Bob will jointly create a transaction using both of their inputs, with Alice's input coming from a script that requires revealing her secret when spent.  Bob's signatures should be collected first, ensuring that Alice's secret is not revealed prior to Bob committing his funds.  
 
-In addition, we need to consider the possibility of double spend attacks and provide a means of preventing them.
+In addition, we will provide a means of preventing double spend attacks with the use of escrow addresses.
 
 ## Escrow Preparation
 
