@@ -138,7 +138,7 @@ OP_RETURN OUTPUT:
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------|
 | 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
-| 8     | Amount   | \<amount/> | Bet amount in Satohis for each participant. | 
+| 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
 
 
 ## Message 1b (Bob Announcement)
