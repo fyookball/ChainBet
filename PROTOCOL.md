@@ -98,9 +98,7 @@ The OP_RETURN payload uses this format:
 
 <protocol_id><version_id><phase_value><various_phase_dependent_data> 
 
-The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Terab/blob/master/spec/opreturn-prefix-guideline.md) with a value of **0x00424554** (ASCII equivalent of "BET").
-
-The version_id is a one-byte value that can be used to upgrade the protocol in the future.  Currently, it shall be **0x01**.
+The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Terab/blob/master/spec/opreturn-prefix-guideline.md) with a value of **0x00424554** (ASCII equivalent of "BET"). The version_id is a one-byte value that can be used to upgrade the protocol in the future.  Currently, it shall be **0x01**.  protocol_id and version_id should be present in all OP_RETURN payloads but will be ommitted in the subsequent message detail descriptions.
 
 **Note that all phases of the protocol use an OP_RETURN message.  Some instead consist of a funding transaction.**
 
