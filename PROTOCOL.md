@@ -18,6 +18,8 @@ An app will still be required on the user end to use the protocol, to send trans
  
 # Commitment Scheme
 
+## Overview
+
 Alice and Bob begin by each creating secret values, and then creating a hash of those values which serve as cryptographic commitments.
 
 The scheme is based on a multisignature address and the idea is that Bob has the responsibility to claim his winnings after learning Alice’s secret.  If he does not, Alice would be able to claim a win by default based on a time lock.  The default win would be necessary since Bob would be motivated to do nothing (keep his secret a secret) once he discovers he has lost the bet.
