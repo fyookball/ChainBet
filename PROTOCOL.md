@@ -154,7 +154,7 @@ OP_RETURN OUTPUT:
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x04  | Phase 4 is " Bet Participant Funding" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob have multiple bets going.|
-| 32  | Participant Txn Id   | \<participant_opreturn_txn_id>|  Alice will need this so she can try to spend Bob’s side of the be. |
+| 32  | Participant Txn Id   | \<participant_opreturn_txn_id>|  Alice will need this so she can try to spend Bob’s side of the bet. |
 | 72| Participant Signature 1 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Bob's** P2SH funds so she can submit the bet transaction to the network. Sigtype hash ALL \| ANYONECANPAY |
 | 72| Participant Signature 2 | \<participant_sig_1>| Bob's signature.  Alice will need this to sign **Alice's** P2SH funds so she can submit the bet transaction to the network Sigtype hash ALL \| ANYONECANPAY |
 
