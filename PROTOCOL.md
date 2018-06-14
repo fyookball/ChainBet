@@ -124,7 +124,7 @@ OP_RETURN OUTPUT:
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
-| 1     | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 | 65    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the public key that Alice should use when creating her p2sh input for the bet. |
  
 
