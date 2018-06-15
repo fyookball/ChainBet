@@ -58,3 +58,7 @@ Finally, when the auction ends, the Seller would claim the funds in the last add
 
 4. Note that it would be possible to assemble a hash chain where each secret revealed links to the next:  Alice's secret A when revealed would be equal to hash(B).  B, when revealed would be equal to hash(C), etc.  But there is no immediately obvious benefit.  Each secret can be unrelated to the others.
 
+## Authors:
+
+Jonald Fyookball
+
