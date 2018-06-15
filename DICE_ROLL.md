@@ -1,4 +1,4 @@
-# DICE ROLL (draft)
+# DICE ROLL (spec version 0.1)
 
 ## Summary
 Extending the ChainBet protocol to go beyond a simple coin flip can begin with dice.  Games like craps offer many different kinds of bets.  Here we will focus on a simple one-time dice roll.  For example, a standard 6-sided die could be rolled and Bob could choose a number at random, say "5".  Alice could then offer Bob bet odds at a 6:1 payout.  Bob can wager 1 BCH and if a 5 is rolled, he will collect 6 BCH from Alice.  If he loses, Alice will collect his 1 BCH.
@@ -63,12 +63,6 @@ The construction of the Bitcoin script can simply plug in the value (number of s
 
 Although the "result of a dice roll" is already an abstraction from large secret numbers, it is fun for players to guess their lucky numbers.  It is therefore valuable to include a way for Bob to choose the number he wants.  This is done with the "guess" field in the payload, and needs to be implemented in the script, with an IF-ELSE path.  If the guess matches the remainder, the participant taking odds wins the bet, otherwise he/she loses. 
 
+## Authors:
 
-
-
-
-
-
-
-
- 
+Jonald Fyookball
