@@ -35,9 +35,9 @@ Bob can also guess the actual outcome (more detail on this in the "Funding Trans
 
 ## Bet Odds, Fairness, and Liquidity
 
-The next 2 fields in the payload designate payout and payIn amounts.  Rather than having a single amount, we need two fields since this is an assymetrical bet.  **Note that the amounts do NOT need to correspond to fair probabilities.** If we always wanted a fair bet, only a single amount field would be needed.  However, by providing the flexibility to give slightly less-than-fair bets, it incentivizes liquidity to enter the system.
+The next 2 fields in the payload designate payout and payIn amounts.  Rather than having a single amount, we need two fields since this is an assymetrical bet.  **Note that the amounts do NOT need to correspond to fair probabilities.** If we always wanted a fair bet, only a single amount field would be needed.  
 
-Therefore, it is essential for implementations to check and handle fairness parameters in a way that makes sense for their users. 
+However, by providing the flexibility to give slightly less-than-fair bets, it incentivizes liquidity to enter the system.  This is analogous to a market maker profits from a spread in a speculative marketplace. Therefore, it is essential for implementations to check and handle fairness parameters in a way that makes sense for their users. 
 
 OP_RETURN OUTPUT:
 
@@ -57,8 +57,11 @@ In the base protocol (coin flip), the bet outcome is deteremined from the sum of
 
 It should be fairly clear why this works: Any modulo operation produces a simple arithmetic sequence of integer values, and since the secrets being used are far larger than the set of possible values in the sequence, there is an equal probability of choosing any particular number in the set.  (This is actually the same algorithm as the coin flip, with the divisor always being 2). 
 
-## Guessing the Outcome
-The construction of the Bitcoin script can simply plug in the value (number of sides) desired.  In addition, it may be valuable to 
+The construction of the Bitcoin script can simply plug in the value (number of sides) desired.
+
+## Guessing the Outcome  
+
+Although the "result of a dice roll" is already an abstraction from large secret numbers, it is fun for players to guess their lucky numbers.  It is therefore valuable to include a way for Bob to choose the number he wants.  This is done with the "guess" field in the payload, and needs to be implemented in the script, with an IF-ELSE path.  If the guess matches the remainder, the participant taking odds wins the bet, otherwise he/she loses. 
 
 
 
