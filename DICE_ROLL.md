@@ -61,7 +61,7 @@ The construction of the Bitcoin script can simply plug in the value (number of s
 
 ## Guessing the Outcome  
 
-Although the "result of a dice roll" is already an abstraction derived from large secret numbers, it is fun for players to guess their lucky numbers.  It is therefore valuable to include a way for Bob to choose the number he wants.  This is done with the "guess" field in the payload, and needs to be implemented in the script, with an IF-ELSE path.  If the guess matches the remainder, the participant taking odds wins the bet, otherwise he/she loses. 
+Although the "result of a dice roll" is already an abstraction derived from large secret numbers, it is fun for players to guess their lucky numbers.  It is therefore valuable to include a way for Bob to choose the number he wants.  This is done with the "guess" field in the payload, and needs to be implemented in the script, with an IF-ELSE path.  If the guess matches the remainder (plus one), the participant taking odds wins the bet, otherwise he/she loses. 
 
 ## Authors:
 
