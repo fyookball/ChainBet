@@ -59,7 +59,7 @@ It should be fairly clear why this works: Iterating the modulo operation over a 
 
 Mathematically, P (k mod n = m) = 1/n as k approaches infinity.
 
-\int_0^\infty \mathrm{P}
+\int_0^\infty \mathrm{e}^{-x}\,\mathrm{d}x
 
 The construction of the Bitcoin script can simply plug in the value (number of sides) desired.
 
