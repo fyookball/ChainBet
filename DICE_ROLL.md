@@ -21,6 +21,8 @@ The changes are fairly modest:
 
 This phase is modified from the base protocol.  Here we use a different bet type (0x02) instead of the coin flip (0x01).  The presense of a different bet type will effect the "various_phase_dependent_data" that follows. In other words, the phase dependent data is not only dependent on the phase, but also on the bet type.
 
+## Giving or Taking Odds
+
 Alice could choose to either give odds (pay a bet multiple to Bob if he successfully guesses the outcome of a multi-sided dice roll), or take odds (the roles would reverse: Alice would win the multiple if Bob loses).
 
 Alice can also choose the number of sides of the virtual die.
@@ -30,6 +32,8 @@ Since giving or taking odds is a binary decision, it would be a waste of space t
 A value of 0 for the "role" indicates Alice is giving odds to Bob (Bob wagers 1 BCH to win 6 BCH) and a value 1 indicates Alice is taking odds.  7 bits for the number of sides allows up to a 128-sided die.
 
 Bob can also guess the actual outcome (more detail on this in the "Funding Transaction" section below).
+
+## Bet Odds, Fairness, and Liquidity
 
 The next 2 fields in the payload designate payout and payIn amounts.  Rather than having a single amount, we need two fields since this is an assymetrical bet.  **Note that the amounts do NOT need to correspond to fair probabilities.** If we always wanted a fair bet, only a single amount field would be needed.  However, by providing the flexibility to give slightly less-than-fair bets, it incentivizes liquidity to enter the system.
 
