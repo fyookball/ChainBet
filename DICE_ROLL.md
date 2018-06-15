@@ -58,9 +58,7 @@ In the base protocol (coin flip), the bet outcome is deteremined from the sum of
 It should be fairly clear why this works: Iterating the modulo operation over a divisor and a set of adjacent dividends produces a simple arithmetic sequence of integer values, and since the secrets being used are far larger than the set of possible values in the sequence, there is an essentially equal probability of choosing any particular number in the set.  (This is actually the same algorithm as the coin flip, with the divisor always being 2). 
 
 Mathematically, P (k mod n = m) = 1/n as k approaches infinity.
-
-\int_0^\infty \mathrm{e}^{-x}\,\mathrm{d}x
-
+ 
 The construction of the Bitcoin script can simply plug in the value (number of sides) desired.
 
 ## Guessing the Outcome  
