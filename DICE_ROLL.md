@@ -37,7 +37,7 @@ Bob can also guess the actual outcome (more detail on this in the "Funding Trans
 
 The next 2 fields in the payload designate payout and payIn amounts.  Rather than having a single amount, we need two fields since this is an assymetrical bet.  **Note that the amounts do NOT need to correspond to fair probabilities.** If we always wanted a fair bet, only a single amount field would be needed.  
 
-However, by providing the flexibility to give slightly less-than-fair bets, it incentivizes liquidity to enter the system.  This is analogous to a market maker profits from a spread in a speculative marketplace. Therefore, it is essential for implementations to check and handle fairness parameters in a way that makes sense for their users. 
+However, by providing the flexibility to give slightly less-than-fair bets, it incentivizes liquidity to enter the system.  This is analogous to how a market maker profits from a spread in a speculative marketplace. Therefore, it is essential for implementations to check and handle fairness parameters in a way that makes sense for their users. 
 
 OP_RETURN OUTPUT:
 
