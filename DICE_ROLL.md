@@ -45,8 +45,8 @@ OP_RETURN OUTPUT:
 | ------------- |-------------| -----|-----------------|
 | 1      | Phase | 0x01  | Phase 1 is "Bet Offer Announcement" |
 | 1     | Bet Type | 0x02 | Denotes what kind of bet will be contructed. 0x02 for Dice Roll. |
-| 1     | Role & Sides | <odds and sides> | Most significant bit designates who is giving odds; the least significant 7 bits designates the number of sides to the die |
-| 1     |  Guess    |  <guess > | Bob's guess at the outcome of the roll | 
+| 1     | Role & Sides | \<odds and sides> | Most significant bit designates who is giving odds; the least significant 7 bits designates the number of sides to the die |
+| 1     |  Guess    |  \<guess > | Bob's guess at the outcome of the roll | 
 | 8     | Payout Amount   | \<payout amount> | Payout amount in Satohis for each participant. | 
 | 8     | PayIn Amount   | \<payIn amount> | PayIn amount in Satohis for each participant. | 
 | 20 | Target Address | \<target> | Optional.  Restricts offer to a specific bet participant. |
