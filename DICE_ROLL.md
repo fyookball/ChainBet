@@ -23,7 +23,7 @@ This phase is modified from the base protocol.  Here we use a different bet type
 
 ## Giving or Taking Odds
 
-Alice could choose to either give odds (pay a bet multiple to Bob if he successfully guesses the outcome of a multi-sided dice roll), or take odds (the roles would reverse: Alice would win the multiple if Bob loses).
+Alice could choose to either give odds (pay a bet multiple to Bob if he successfully guesses the outcome of a multi-sided dice roll), or take odds (the roles would reverse: Alice would win the multiple if Bob loses -- if his guess is unluckily rolled).
 
 Alice can also choose the number of sides of the virtual die.
 
