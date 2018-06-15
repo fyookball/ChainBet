@@ -13,7 +13,7 @@ We can extend the base protocol by introducing a new bet type designating a dice
 
 The changes are fairly modest:
 
-1. Alice needs advertise the bet differently, specifying the parameters of the bet.
+1. Alice needs to advertise the bet differently, specifying the parameters of the bet.
 2. The participants need to fund the bet according to the parameters chosen.
 3. The main betting script should contain changes to handle the bet odds.
 
