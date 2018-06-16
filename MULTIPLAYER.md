@@ -1,6 +1,6 @@
 # MultiPlayer (draft in progress)
 
-# Phase 1: Bet Offer Announcement
+## Phase 1: Bet Offer Announcement
 
 
 NOTE: This unique identifier for this Bet will be the transaction id of the txn containing this phase 1 message, herein referred to as <host_opreturn_txn_id>.
@@ -15,7 +15,7 @@ OP_RETURN OUTPUT:
 
 
 
-# Phase 2: Bet Participant Acceptance
+## Phase 2: Bet Participant Acceptance
  
 NOTE: This transaction ID of the transaction containing this phase 2 message, herein referred to as the <participant_opreturn_txn_id>.
 
@@ -27,7 +27,7 @@ OP_RETURN OUTPUT:
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that players should use when creating the funding transaction. |
 
-# Phase 3: Player List Announcement
+## Phase 3: Player List Announcement
 
 
 | Bytes       | Name         | Hex Value | Description  |
@@ -37,7 +37,7 @@ OP_RETURN OUTPUT:
 | 8-88 | Participant Txn List  | \<participant txn list>| The 8 byte tail (least significant bits) of the participant_opreturn_txn_id of each participant other than Alice will be put into a list, sorted, and concatenated. |
 
 
-# Phase 4: Sign Main Funding Transaction
+## Phase 4: Sign Main Funding Transaction
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
@@ -48,7 +48,7 @@ OP_RETURN OUTPUT:
 | 72 | Signature | \<signature> | Signature spending Bob's funds to the main bet script. Sigtype hash ALL \| ANYONECANPAY |
 
 
-# Phase 5: Sign Escrow Funding Transaction
+## Phase 5: Sign Escrow Funding Transaction
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
@@ -58,6 +58,17 @@ OP_RETURN OUTPUT:
 
 
 
-Phase 6: Sign Escrow Refund Transaction
+## Phase 6: Sign Escrow Refund Transaction
+
+
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
+| 1     | Signature Index | \<signature index> | A special index used for the purposes of organizing escrow refund signatures.
+| 72 | Signature 1 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
+| 72 | Signature 2 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
+
+
 
 Phase 7: Reveal Secrets
