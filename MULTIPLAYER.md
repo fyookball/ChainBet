@@ -1,5 +1,24 @@
 # MultiPlayer (draft in progress)
 
+## Introduction
+
+Extending the ChainBet protocol to cover bets involving multiple players adds another level of complexity.  The field of study known as [Multi Party Computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation) contains a number of avenues, but not all are suitable for our purpose.
+
+The ideal solution has the following properties:
+
+1. It does not allow cheating via collusion, even against an attacker controlling all adverseries.  
+2. It protects an honest participant from losing money, even if a dishonest participant acts irrationally.
+
+This protocol meets those 2 ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
+
+
+ 
+
+
+
+
+
+
 ## Phase 1: Bet Offer Announcement
 
 
