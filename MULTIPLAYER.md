@@ -11,6 +11,12 @@ The ideal solution has the following properties:
 
 This protocol meets those 2 ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
 
+## Multilock 
+
+We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov, which offers the principle of  jointly locking coins for fair exchange.  Their proposal requires a protocol change, using the leaves of the Merkle root to get a different transaction ID even if the transaction is unsigned.  
+
+However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
+
 
  
 
