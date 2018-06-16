@@ -44,11 +44,19 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
 | 32 | Transaction Input Id  | \<txIn>| The coin Bob will spend to participate in the bet. |
-| 1  | vOut | <vOut> | The index of the outpoint |
+| 1  | vOut | \<vOut> | The index of the outpoint |
 | 72 | Signature | \<signature> | Signature spending Bob's funds to the main bet script. Sigtype hash ALL \| ANYONECANPAY |
 
 
-Phase 5: Sign Escrow Funding Transaction
+# Phase 5: Sign Escrow Funding Transaction
+
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
+| 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL  |
+
+
 
 Phase 6: Sign Escrow Refund Transaction
 
