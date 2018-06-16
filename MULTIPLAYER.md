@@ -13,7 +13,7 @@ This protocol meets those 2 ideals, although it does have the cost of requiring 
 
 ## Multilock 
 
-We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov, which offers the principle of  jointly locking coins for fair exchange.  Their proposal requires a protocol change, using the leaves of the Merkle root to get a different transaction ID even if the transaction is unsigned.  
+We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov, which offers the principle of  jointly locking coins for fair exchange.  Their proposal calls for a protocol change, using the leaves of the Merkle root to get a different transaction ID even if the transaction is unsigned.  
 
 However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
 
