@@ -17,6 +17,11 @@ We draw our initial inspiration from a multilock idea originally proposed by Kum
 
 However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
 
+## Scheme
+
+First, the main betting script is constructed.  It can spend outputs in two ways.  First, if all parties sign.  Second, if the winner produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/edit/master/DICE_ROLL.md).  
+
+This betting script is then funded by all participants using a timelocked transaction
 
  
 ![Scheme](https://raw.githubusercontent.com/fyookball/ChainBet/master/images/multilock-small.png)
@@ -79,7 +84,7 @@ OP_RETURN OUTPUT:
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x03  | Phase 4 is " Sign Escrow Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
-| 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL  |
+| 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL \| ANYONECANPAY  |
 
 
 
