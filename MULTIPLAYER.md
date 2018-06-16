@@ -21,7 +21,7 @@ However, a protocol change is not necessary for our purposes.  We can build our 
 
 ## Scheme
 
-First, the main betting address (script) is constructed.  It can spend outputs in either of two ways.  **a)** If all parties sign, or **b)**, if the winner signs and produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/edit/master/DICE_ROLL.md).  
+First, the main betting address (script) is constructed.  It can spend outputs in either of two ways.  **a)** If all parties sign, or **b)**, if the winner signs and produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/blob/master/DICE_ROLL.md).  
 
 The participants then create the **main funding transaction** which funds this script using a timelocked transaction.  Each participant needs to contribute (*N \* Bet Amount* ) where N is the number of players.  The total amount of this transaction is therefore ( *N<sup>2</sup> \* Bet Amount*). 
 
