@@ -1,4 +1,4 @@
-# MultiPlayer
+# MultiPlayer (draft in progress)
 
 # Phase 1: Bet Offer Announcement
 
@@ -27,7 +27,18 @@ OP_RETURN OUTPUT:
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that Alice should use when creating her p2sh input for the bet. |
 
-Phase 3: Player List
+# Phase 3: Player List Announcement
+
+
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x03  | Phase 3 is " Player List Announcement" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
+| 8-88 | Participant Txn List  | \<participant txn list>| The 8 byte tail (least significant bits) of the participant_opreturn_txn_id of each participant other than Alice will be put into a list, sorted, and concatenated. |
+
+
+
+
 
 Phase 4: Sign Main Funding Transaction
 
