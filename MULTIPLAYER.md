@@ -21,9 +21,9 @@ However, a protocol change is not necessary for our purposes.  We can build our 
 
 First, the main betting address (script) is constructed.  It can spend outputs in either of two ways.  **a)** If all parties sign, or **b)**, if the winner signs and produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/edit/master/DICE_ROLL.md).  
 
-This betting script is then funded by all participants using a timelocked transaction, producing a transaction hash and a single output.  Each participant needs to contribute (*N \* Bet Amount* ) where N is the number of players.  The total amount of this transaction is therefore ( *N<sup>2</sup> \* Bet Amount*). 
+The participants then create the **main funding transaction** which funds this script using a timelocked transaction.  Each participant needs to contribute (*N \* Bet Amount* ) where N is the number of players.  The total amount of this transaction is therefore ( *N<sup>2</sup> \* Bet Amount*). 
 
-Next, each participant creates an escrow address (script) that can spend outputs in either of two ways.  **a)** if the participant can sign and produce the secret that solves the commitment hash, or **b)** if all parties BUT the participant sign.   For example, if the participants include Alice, Bob, Carol, and Dave (each wagering 1 BCH), then Alice's escrow addrsess can be spent if Alice signs and produces **Secret A** , or if Bob, Carol, and Dave all sign.  This second method also has its own timelock.
+Next, each participant creates an escrow address (script) that can spend outputs in either of two ways.  **a)** if the participant can sign and produce the secret that solves the commitment hash, or **b)** if all parties BUT the participant sign.   For example, if the participants include Alice, Bob, Carol, and Dave (each wagering 1 BCH), then Alice's escrow addrsess can be spent if Alice signs and produces **Secret A** , or if Bob, Carol, and Dave create an **escrow refund transaction** by all signing.  This second method also has its own timelock.
 
 The idea behind the escrow address is to allow each player enough time to reveal their secret, but force them to compensate every other player if they do not, since not revealing the secret would make the bet unwinnable by anyone.  This is the reason why the bet multiple is required.
 
@@ -31,21 +31,20 @@ The refund transactions need to be signed prior to funds being committed.  Conti
 
 In the normal case when no one defaults, Alice will spend the 3 BCH back to herself, revealing her secret, and reducing her exposure to the wager amount of 1 BCH.  The same is true for all participants.
 
-After this, the players create a transaction that spends the output of the main betting script and splits it into N outputs that fund the escrow addresses, with the change going back to itself.  So for 4 players wagering 1 BCH, we start with 16 BCH, which is spent on 4 outputs of 3 BCH each (12 total), and 4 BCH sent back as change.
+After this, the players create the **escrow funding transaction** that spends the output of the main betting script and splits it into N outputs that fund the escrow addresses, with the change going back to itself.  So for 4 players wagering 1 BCH, we start with 16 BCH, which is spent on 4 outputs of 3 BCH each (12 total), and 4 BCH sent back as change.
 
+Once everyone is sure that everyone else signed this main escrow transaction, it is safe to allow the timelock on the main funding transaction to expire.  If the timelock is about to expire and a participant doesn't see that the main escrow transaction is signed (or that not all the escrow refund trasactions have been signed), they can cancel the bet by trivially double spending the input to the main funding transaction since it is still under timelock.
 
+Once the main funding transaction timelock expires and the transaction has at least 1 confirmation, it essentially cannot be doublespent.  It will then require the winner to produce the secret, but there is assurance that a winner will come forward with all the secrets since the participants will lose money if they do not produce their secret.  
 
+The time lock on the refund script should come AFTER the time lock on the main betting script.  Otherwise, the players would be forced to reveal their secrets too early and the bet could be cancelled by double spending.    
 
+## Diagram of Betting Scheme
 
-
-
-
- 
 ![Scheme](https://raw.githubusercontent.com/fyookball/ChainBet/master/images/multilock-small.png)
 
 
-
-
+# Betting Phases
 
 ## Phase 1: Bet Offer Announcement
 
