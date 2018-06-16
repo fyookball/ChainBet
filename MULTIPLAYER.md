@@ -2,6 +2,8 @@
 
 ## Introduction
 
+This type of bet is a winner-takes-all between multiple players with even chances.
+
 Extending the ChainBet protocol to cover bets involving multiple players adds another level of complexity.  The field of study known as [Multi Party Computation](https://en.wikipedia.org/wiki/Secure_multi-party_computation) contains a number of avenues, but not all are suitable for our purpose.
 
 The ideal solution has the following properties:
@@ -48,8 +50,9 @@ The time lock on the refund script should come AFTER the time lock on the main b
 
 ## Phase 1: Bet Offer Announcement
 
+Alice announces a multiplayer bet and specifies the amount of the bet.  
 
-NOTE: This unique identifier for this Bet will be the transaction id of the txn containing this phase 1 message, herein referred to as <host_opreturn_txn_id>.
+NOTE: This unique identifier for this bet will be the transaction id of the txn containing this phase 1 message, herein referred to as <host_opreturn_txn_id>.
 
 OP_RETURN OUTPUT:
 
@@ -63,6 +66,9 @@ OP_RETURN OUTPUT:
 
 ## Phase 2: Bet Participant Acceptance
  
+Next, other players (up to 11 other players) can join the bet.  Hereinafter, we will refer to all other players as "Bob".
+Bob(s) need to send their public key and their commitment secret in this phase.
+
 NOTE: This transaction ID of the transaction containing this phase 2 message, herein referred to as the <participant_opreturn_txn_id>.
 
 OP_RETURN OUTPUT:
@@ -74,7 +80,12 @@ OP_RETURN OUTPUT:
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that players should use when creating the funding transaction. |
 |32  | Committment | <commitment> | Hash of the players' secret| 
 
+
 ## Phase 3: Player List Announcement
+
+Alice will publish a list of all players.  If there is no list, then things may become confusing based on timing where not everyone is clear on the number of players and who they are. Allowing Alice to pick the list is not a problem since this scheme is collusion proof.  
+
+To save space, Alice will only publish the 8 least significant bytes of each participant_opreturn_tx_id, ignoring the edge case where 2 might have a collision.  The list of these truncated ids will be sorted with the lowest value coming first, and then concatenated to form a byte string that has a length of between 8 and 88 bytes, depending on how many players are in the list. 
 
 
 | Bytes       | Name         | Hex Value | Description  |
@@ -86,6 +97,8 @@ OP_RETURN OUTPUT:
 
 ## Phase 4: Sign Main Funding Transaction
 
+All participants then deterministically create the betting script and sign the main funding transaction, specifying the input parameters and their signature.
+
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
@@ -96,6 +109,8 @@ OP_RETURN OUTPUT:
 
 
 ## Phase 5: Sign Escrow Funding Transaction
+
+
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
