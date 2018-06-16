@@ -29,7 +29,7 @@ Next, each participant creates an escrow address (script) that can spend outputs
 
 The idea behind the escrow address is to allow each player enough time to reveal their secret, but force them to compensate every other player if they do not, since not revealing the secret would make the bet unwinnable by anyone.  This is the reason why the bet multiple is required.
 
-The refund transactions need to be signed prior to funds being committed.  Continuing this example, if Alice defaults then Bob does not want to dependant on Carol and Dave to get his money back, so all 3 (Bob, Carol, and Dave) should sign a transaction spending the funds (3 BCH total) from Alice's escrow address back to themselves, so they are each compensated with 1 BCH.  The same needs to happen for the other player's escrow addresses: Alice, Carol, and Dave need to sign a transaction spending from Bob's escrow, and so on.
+The refund transactions need to be signed prior to funds being committed.  Continuing this example, if Alice defaults then Bob does not want to depend on Carol and Dave to get his money back, so all 3 (Bob, Carol, and Dave) should sign a transaction spending the funds (3 BCH total) from Alice's escrow address back to themselves, so they are each compensated with 1 BCH.  The same needs to happen for the other player's escrow addresses: Alice, Carol, and Dave need to sign a transaction spending from Bob's escrow, and so on.
 
 In the normal case when no one defaults, Alice will spend the 3 BCH back to herself, revealing her secret, and reducing her exposure to the wager amount of 1 BCH.  The same is true for all participants.
 
