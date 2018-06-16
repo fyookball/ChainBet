@@ -25,7 +25,7 @@ OP_RETURN OUTPUT:
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
-|33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that Alice should use when creating her p2sh input for the bet. |
+|33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that players should use when creating the funding transaction. |
 
 # Phase 3: Player List Announcement
 
@@ -37,10 +37,16 @@ OP_RETURN OUTPUT:
 | 8-88 | Participant Txn List  | \<participant txn list>| The 8 byte tail (least significant bits) of the participant_opreturn_txn_id of each participant other than Alice will be put into a list, sorted, and concatenated. |
 
 
+# Phase 4: Sign Main Funding Transaction
 
+| Bytes       | Name         | Hex Value | Description  |
+| ------------- |-------------| -----|-----------------| 
+| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
+| 32 | Transaction Input Id  | \<txIn>| The coin Bob will spend to participate in the bet. |
+| 1  | vOut | <vOut> | The index of the outpoint |
+| 72 | Signature | \<signature> | Signature spending Bob's funds to the main bet script. Sigtype hash ALL \| ANYONECANPAY |
 
-
-Phase 4: Sign Main Funding Transaction
 
 Phase 5: Sign Escrow Funding Transaction
 
