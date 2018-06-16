@@ -101,7 +101,7 @@ All participants then deterministically create the betting script and sign the m
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
-| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 1      | Phase | 0x04  | Phase 4 is " Sign Main Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
 | 32 | Transaction Input Id  | \<txIn>| The coin Bob will spend to participate in the bet. |
 | 1  | vOut | \<vOut> | The index of the outpoint |
@@ -115,7 +115,7 @@ All participants then deterministically create the escrow scripts and sign the e
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
-| 1      | Phase | 0x03  | Phase 4 is " Sign Escrow Funding Transaction" |
+| 1      | Phase | 0x05  | Phase 5 is " Sign Escrow Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
 | 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL \| ANYONECANPAY  |
 | 
@@ -132,7 +132,7 @@ Note that the players do not have to wait for anything to happen between message
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
-| 1      | Phase | 0x03  | Phase 6 is " Sign Escrow Refund Transaction" |
+| 1      | Phase | 0x06  | Phase 6 is " Sign Escrow Refund Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
 | 1     | Signature Index | \<signature index> | A special index used for the purposes of organizing escrow refund signatures.
 | 72 | Signature 1 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
