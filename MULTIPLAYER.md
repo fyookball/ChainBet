@@ -19,7 +19,7 @@ However, a protocol change is not necessary for our purposes.  We can build our 
 
 
  
-!(Scheme)[https://raw.githubusercontent.com/fyookball/ChainBet/master/images/multilock-small.png]
+![Scheme](https://raw.githubusercontent.com/fyookball/ChainBet/master/images/multilock-small.png)
 
 
 
