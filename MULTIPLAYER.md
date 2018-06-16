@@ -52,7 +52,7 @@ OP_RETURN OUTPUT:
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
-| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 1      | Phase | 0x03  | Phase 4 is " Sign Escrow Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
 | 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL  |
 
@@ -63,12 +63,11 @@ OP_RETURN OUTPUT:
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
-| 1      | Phase | 0x03  | Phase 4 is " Sign Main Funding Transaction" |
+| 1      | Phase | 0x03  | Phase 6 is " Sign Escrow Refund Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.| 
 | 1     | Signature Index | \<signature index> | A special index used for the purposes of organizing escrow refund signatures.
 | 72 | Signature 1 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
 | 72 | Signature 2 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
 
+ 
 
-
-Phase 7: Reveal Secrets
