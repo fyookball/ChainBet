@@ -59,7 +59,7 @@ It should be fairly clear why this works: Iterating the modulo operation over a 
 
 Mathematically:
 
-![P (k' mod n = m) -> 1/n as k approaches infinity.](https://i.imgur.com/mBLYtnC.png)
+![P (k' mod n = m) -> 1/n as k approaches infinity.](https://raw.githubusercontent.com/fyookball/ChainBet/master/images/68747470733a2f2f692e696d6775722e636f6d2f6d424c59746e432e706e67.png)
 
  
 The construction of the Bitcoin script can simply plug in the value (number of sides) desired.
