@@ -33,7 +33,7 @@ The refund transactions need to be signed prior to funds being committed.  Conti
 
 In the normal case when no one defaults, Alice will spend the 3 BCH back to herself, revealing her secret, and reducing her exposure to the wager amount of 1 BCH.  The same is true for all participants.
 
-After this, the players create the **escrow funding transaction** that spends the output of the main betting script and splits it into N outputs that fund the escrow addresses, with the change going back to itself.  So for 4 players wagering 1 BCH, we start with 16 BCH, which is spent on 4 outputs of 3 BCH each (12 total), and 4 BCH sent back as change.
+After creating the escrow addresses, the players create the **escrow funding transaction** that spends the output of the main betting script and splits it into N outputs that fund the escrow addresses, with the change going back to itself.  So for 4 players wagering 1 BCH, we start with 16 BCH, which is spent on 4 outputs of 3 BCH each (12 total), and 4 BCH sent back as change.
 
 Once everyone is sure that everyone else signed this main escrow transaction, it is safe to allow the timelock on the main funding transaction to expire.  If the timelock is about to expire and a participant doesn't see that the main escrow transaction is signed (or that not all the escrow refund trasactions have been signed), they can cancel the bet by trivially double spending the input to the main funding transaction since it is still under timelock.
 
