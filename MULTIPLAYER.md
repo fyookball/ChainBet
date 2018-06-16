@@ -15,7 +15,7 @@ This protocol meets those 2 ideals, although it does have the cost of requiring 
 
 ## Multilock 
 
-We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov, which offers the principle of  jointly locking coins for fair exchange.  Their proposal calls for a protocol change, using the leaves of the Merkle root to obtain a transaction ID even if transaction is unsigned.  
+We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov<sup>1</sup>, which offers the principle of  jointly locking coins for fair exchange.  Their proposal calls for a protocol change, using the leaves of the Merkle root to obtain a transaction ID even if transaction is unsigned.  
 
 However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
 
@@ -111,17 +111,24 @@ All participants then deterministically create the betting script and sign the m
 ## Phase 5: Sign Escrow Funding Transaction
 
 
+All participants then deterministically create the escrow scripts and sign the escrow funding transaction. 
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
 | 1      | Phase | 0x03  | Phase 4 is " Sign Escrow Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
 | 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL \| ANYONECANPAY  |
-
+| 
 
 
 ## Phase 6: Sign Escrow Refund Transaction
 
+
+All participants then sign the escrow refund transactions, assuming the refund address is that which is generated from the public key of each participant, and assuming the bet id ordering described in phase 3.  Each player will have to generate multiple signatures (one for each other participant).  Because of space, only 2 can fit in each message and thus multiple messages may be required.  
+
+This is the purpose of the signature index.  Bob will send the first message with signature index 0x00, indicating his two signatures will be for the Alice escrow refund transaction and the Carol escrow refund transaction respecitively.  His second message will have signature index 0x01,  indicating Bob's escrow refund transaction.
+
+Note that the players do not have to wait for anything to happen between messages 4 and 5, or between messages 5 and 6.  The only safety requirement is that they double spend their inputs before the first time lock if not all assurances are in place.
 
 | Bytes       | Name         | Hex Value | Description  |
 | ------------- |-------------| -----|-----------------| 
@@ -131,5 +138,9 @@ All participants then deterministically create the betting script and sign the m
 | 72 | Signature 1 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
 | 72 | Signature 2 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
 
- 
+## Authors
 
+Jonald Fyookball
+
+\[1]  Kumaresan, Bentov "How to Use Bitcoin to Incentivize Correct Computations"
+ 
