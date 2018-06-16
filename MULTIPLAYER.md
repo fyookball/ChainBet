@@ -19,11 +19,26 @@ However, a protocol change is not necessary for our purposes.  We can build our 
 
 ## Scheme
 
-First, the main betting script is constructed.  It can spend outputs in either of two ways.  **a)** If all parties sign, or **b)**, if the winner signs and produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/edit/master/DICE_ROLL.md).  
+First, the main betting address (script) is constructed.  It can spend outputs in either of two ways.  **a)** If all parties sign, or **b)**, if the winner signs and produces all the secrets.  The winner is determined by the modulo method described in the the [dice protocol](https://github.com/fyookball/ChainBet/edit/master/DICE_ROLL.md).  
 
-This betting script is then funded by all participants using a timelocked transaction, producing a transaction hash and a single output.  Each participant needs to contribute (*N \* Bet Amount* ) where N is the number of players.  The total amount of this transaction will be ( *N<sup>2</sup> \* Bet Amount*). 
+This betting script is then funded by all participants using a timelocked transaction, producing a transaction hash and a single output.  Each participant needs to contribute (*N \* Bet Amount* ) where N is the number of players.  The total amount of this transaction is therefore ( *N<sup>2</sup> \* Bet Amount*). 
 
-Next, a second transaction is created that spends 
+Next, each participant creates an escrow address (script) that can spend outputs in either of two ways.  **a)** if the participant can sign and produce the secret that solves the commitment hash, or **b)** if all parties BUT the participant sign.   For example, if the participants include Alice, Bob, Carol, and Dave (each wagering 1 BCH), then Alice's escrow addrsess can be spent if Alice signs and produces **Secret A** , or if Bob, Carol, and Dave all sign.  This second method also has its own timelock.
+
+The idea behind the escrow address is to allow each player enough time to reveal their secret, but force them to compensate every other player if they do not, since not revealing the secret would make the bet unwinnable by anyone.  This is the reason why the bet multiple is required.
+
+The refund transactions need to be signed prior to funds being committed.  Continuing this example, if Alice defaults then Bob does not want to dependant on Carol and Dave to get his money back, so all 3 (Bob, Carol, and Dave) should sign a transaction spending the funds (3 BCH total) from Alice's escrow address back to themselves, so they are each compensated with 1 BCH.  The same needs to happen for the other player's escrow addresses: Alice, Carol, and Dave need to sign a transaction spending from Bob's escrow, and so on.
+
+In the normal case when no one defaults, Alice will spend the 3 BCH back to herself, revealing her secret, and reducing her exposure to the wager amount of 1 BCH.  The same is true for all participants.
+
+After this, the players create a transaction that spends the output of the main betting script and splits it into N outputs that fund the escrow addresses, with the change going back to itself.  So for 4 players wagering 1 BCH, we start with 16 BCH, which is spent on 4 outputs of 3 BCH each (12 total), and 4 BCH sent back as change.
+
+
+
+
+
+
+
 
  
 ![Scheme](https://raw.githubusercontent.com/fyookball/ChainBet/master/images/multilock-small.png)
@@ -58,6 +73,7 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that players should use when creating the funding transaction. |
+|32  | Committment | <commitment> | Hash of the players' secret| 
 
 ## Phase 3: Player List Announcement
 
