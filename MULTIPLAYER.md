@@ -1,4 +1,4 @@
-# MultiPlayer (draft in progress)
+# MultiPlayer 
 
 ## Introduction
 
