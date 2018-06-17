@@ -147,7 +147,7 @@ Despite the assurances in the scheme, it may appear that a collusion attack is s
 
 Imagine that Alice controls 11 adverseries against a single Bob.  The Alice group has a member, "late Alice", who always tries to reveal her secret later than Bob so that the Alice group knows the outcome before Bob does. 
 
-If the bet size is 1 BCH, then the Alice group is expected to win 1 BCH on 11 out of 12 bets, but Bob is expected to win 11 BCH on 1 out of 12 bets.  Since the Alice group sees the outcome first, their plan is that if Bob loses, Alice collects his 1 BCH, but if Bob wins, "late Alice" simply doesn't share her secret, and since her compensation transaction mostly pays her own teammates, the Alice group only loses 1 BCH.
+If the bet size is 1 BCH, then the Alice group is expected to win 1 BCH on 11 out of 12 bets, but Bob is expected to win 11 BCH on 1 out of 12 bets.  Since the Alice group sees the outcome first, their plan is that if Bob loses, they collect his 1 BCH, but if Bob wins, "late Alice" simply doesn't share her secret, and since her compensation transaction mostly pays her own teammates, the Alice group only loses 1 BCH.
 
 However, they are forgetting that only Bob can claim the 12 BCH still in the main bet account!  The Alice group actually loses a total of 12 BCH (11 in the main bet and 1 in the refund transaction), which is 1 more BCH than they would lose if they simply allowed Bob to collect his winnings.
 
