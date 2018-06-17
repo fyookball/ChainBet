@@ -118,7 +118,7 @@ All participants then deterministically create the escrow scripts and sign the e
 | 1      | Phase | 0x05  | Phase 5 is " Sign Escrow Funding Transaction" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> |This is the bet id that is needed in case Alice or Bob(s) have multiple bets going.|  
 | 72 | Signature | \<signature> | Signature spending funds to all escrow addresses. Sigtype hash ALL \| ANYONECANPAY  |
-| 
+
 
 
 ## Phase 6: Sign Escrow Refund Transaction
