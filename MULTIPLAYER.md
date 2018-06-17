@@ -137,12 +137,11 @@ Note that the players do not have to wait for anything to happen between message
 | 1     | Signature Index | \<signature index> | A special index used for the purposes of organizing escrow refund signatures.
 | 72 | Signature 1 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
 | 72 | Signature 2 | \<signature> | Signature spending escrow refund transaction. Sigtype hash ALL \|ANYONECANPAY  |
-
-## Final Phase
+ 
 
 After the main funding transaction is confirmed, players will begin to reclaim their security depoits and reveal their secrets.  Then the winner can claim the prize.  They must do so before the escrow timelock expires or they will lose funds while compensating others.
 
-## Collusion
+# Collusion
  
 Despite the assurances in the scheme, it may appear that a collusion attack is still possible, but upon closer examination, it is unprofitable to do so.
 
