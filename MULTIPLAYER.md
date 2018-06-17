@@ -151,7 +151,7 @@ If the bet size is 1 BCH, then the Alice group is expected to win 1 BCH on 11 ou
 
 However, they are forgetting that only Bob can claim the 12 BCH still in the main bet account!  The Alice group actually loses a total of 12 BCH (11 in the main bet and 1 in the refund transaction), which is 1 more BCH than they would lose if they simply allowed Bob to collect his winnings.
 
-We still generally consider that the scheme protects Bob from losing money if the participants behave irrationally because secret-withholding is compensated for and generally wouldn't target a specific bet or person.  Technically, the scheme isn't tamper-proof, but a malicious actor would have to go out of their way AND lose money in order to affect the bet.
+We still generally consider that the scheme protects Bob from losing money if the participants behave irrationally because secret-withholding is compensated for and wouldn't target a specific bet or person.  Technically, the scheme isn't tamper-proof, but a malicious actor would have to go out of their way AND lose money in order to affect the bet.
 
 ## Final Thoughts
 
