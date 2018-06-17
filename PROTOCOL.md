@@ -126,6 +126,7 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that Alice should use when creating her p2sh input for the bet. |
+| 32   | Bob Commitment | \<commitment> | Bob's commitment so Alice can build Bob's P2SH escrow address |
  
 
 ## Phase 3: Bet Host Funding
