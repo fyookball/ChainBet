@@ -8,10 +8,10 @@ Extending the ChainBet protocol to cover bets involving multiple players adds an
 
 The ideal solution has the following properties:
 
-1. It does not allow cheating via collusion, even against an attacker controlling a majority (or even all) of the adverseries.  
+1. It does not allow cheating via collusion, even against an attacker controlling  all of the adverseries.  
 2. It protects an honest participant from losing money, even if a dishonest participant acts irrationally.
 
-This protocol approaches those ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
+This protocol can meet those ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
 
 ## Multilock 
 
@@ -60,7 +60,7 @@ OP_RETURN OUTPUT:
 | ------------- |-------------| -----|-----------------|
 | 1      | Phase | 0x01  | Phase 1 is "Bet Offer Announcement" |
 | 1     | Bet Type | 0x03 | Denotes what kind of bet will be contructed. 0x03 for Multiplayer bet. |
-| 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. |  
+| 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. |   
 
 
 
@@ -143,8 +143,9 @@ Note that the players do not have to wait for anything to happen between message
 After the main funding transaction is confirmed, players will begin to reclaim their security depoits and reveal their secrets.  Then the winner can claim the prize.  They must do so before the escrow timelock expires or they will lose funds while compensating others.
 
 ## Collusion
+ 
 
-A collusion attack is still possible in this scheme. 
+
 
 ## Authors
 
