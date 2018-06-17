@@ -8,16 +8,16 @@ Extending the ChainBet protocol to cover bets involving multiple players adds an
 
 The ideal solution has the following properties:
 
-1. It does not allow cheating via collusion, even against an attacker controlling all adverseries.  
+1. It does not allow cheating via collusion, even against an attacker controlling a majority (or even all) of the adverseries.  
 2. It protects an honest participant from losing money, even if a dishonest participant acts irrationally.
 
-This protocol meets those 2 ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
+This protocol approaches those ideals, although it does have the cost of requiring a security deposit of a multiple (N) of the bet amount, where N is the number of participants.  It may be possible to create a different scheme that meets the ideals and has a lower security deposit, but at the cost of added complexity, time, and multiple rounds.  We will not explore such a scheme here.
 
 ## Multilock 
 
 We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov<sup>1</sup>, which offers the principle of  jointly locking coins for fair exchange.  Their proposal calls for a protocol change, using the leaves of the Merkle root to obtain a transaction ID even if transaction is unsigned.  
 
-However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
+However, a protocol change is not necessary for our purposes.  We can build a workable solution simply by applying the correct tiering of transactions and time locks.
 
 ## Scheme
 
@@ -83,7 +83,7 @@ OP_RETURN OUTPUT:
 
 ## Phase 3: Player List Announcement
 
-Alice will publish a list of all players.  If there is no list, then things may become confusing based on timing where not everyone is clear on the number of players and who they are. Allowing Alice to pick the list is not a problem since this scheme is collusion proof.  
+Alice will publish a list of all players.  If there is no list, then things may become confusing based on timing where not everyone is clear on the number of players and who they are. Allowing Alice to pick the list is a starting point but future versions should seek to improve on this to protect against collusion.  
 
 To save space, Alice will only publish the 8 least significant bytes of each participant_opreturn_tx_id, ignoring the edge case where 2 might have a collision.  The list of these truncated ids will be sorted with the lowest value coming first, and then concatenated to form a byte string that has a length of between 8 and 88 bytes, depending on how many players are in the list. 
 
@@ -126,7 +126,7 @@ All participants then deterministically create the escrow scripts and sign the e
 
 All participants then sign the escrow refund transactions, assuming the refund address is that which is generated from the public key of each participant, and assuming the bet id ordering described in phase 3.  Each player will have to generate multiple signatures (one for each other participant).  Because of space, only 2 can fit in each message and thus multiple messages may be required.  
 
-This is the purpose of the signature index.  Bob will send the first message with signature index 0x00, indicating his two signatures will be for the Alice escrow refund transaction and the Carol escrow refund transaction respecitively.  His second message will have signature index 0x01,  indicating Bob's escrow refund transaction.
+This is the purpose of the signature index.  Bob will send the first message with signature index 0x00, indicating his two signatures will be for the Alice escrow refund transaction and the Carol escrow refund transaction respecitively.  His second message will have signature index 0x01,  indicating Dave's escrow refund transaction.
 
 Note that the players do not have to wait for anything to happen between messages 4 and 5, or between messages 5 and 6.  The only safety requirement is that they double spend their inputs before the first time lock if not all assurances are in place.
 
@@ -141,6 +141,10 @@ Note that the players do not have to wait for anything to happen between message
 ## Final Phase
 
 After the main funding transaction is confirmed, players will begin to reclaim their security depoits and reveal their secrets.  Then the winner can claim the prize.  They must do so before the escrow timelock expires or they will lose funds while compensating others.
+
+## Collusion
+
+A collusion attack is still possible in this scheme. 
 
 ## Authors
 
