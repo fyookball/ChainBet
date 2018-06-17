@@ -17,7 +17,7 @@ This protocol can meet those ideals, although it does have the cost of requiring
 
 We draw our initial inspiration from a multilock idea originally proposed by Kumaresan and Bentov<sup>1</sup>, which offers the principle of  jointly locking coins for fair exchange.  Their proposal calls for a protocol change, using the leaves of the Merkle root to obtain a transaction ID even if transaction is unsigned.  
 
-However, a protocol change is not necessary for our purposes.  We can build a workable solution simply by applying the correct tiering of transactions and time locks.
+However, a protocol change is not necessary for our purposes.  We can build our solution simply by applying the correct tiering of transactions and time locks.
 
 ## Scheme
 
@@ -83,7 +83,7 @@ OP_RETURN OUTPUT:
 
 ## Phase 3: Player List Announcement
 
-Alice will publish a list of all players.  If there is no list, then things may become confusing based on timing where not everyone is clear on the number of players and who they are. Allowing Alice to pick the list is a starting point but future versions should seek to improve on this to protect against collusion.  
+Alice will publish a list of all players.  If there is no list, then things may become confusing based on timing where not everyone is clear on the number of players and who they are. Allowing Alice to pick the list is not a problem since collusion is unprofitable.  
 
 To save space, Alice will only publish the 8 least significant bytes of each participant_opreturn_tx_id, ignoring the edge case where 2 might have a collision.  The list of these truncated ids will be sorted with the lowest value coming first, and then concatenated to form a byte string that has a length of between 8 and 88 bytes, depending on how many players are in the list. 
 
@@ -144,7 +144,19 @@ After the main funding transaction is confirmed, players will begin to reclaim t
 
 ## Collusion
  
+Despite the assurances in the scheme, it may appear that a collusion attack is still possible, but upon closer examination, it is unprofitable to do so.
 
+Imagine that Alice controls 11 adverseries against a single Bob.  The Alice group has a member, "late Alice", who always tries to reveal her secret later than Bob so that the Alice group knows the outcome before Bob does. 
+
+If the bet size is 1 BCH, then the Alice group is expected to win 1 BCH on 11 out of 12 bets, but Bob is expected to win 11 BCH on 1 out of 12 bets.  Since the Alice group sees the outcome first, their plan is that if Bob loses, Alice collects his 1 BCH, but if Bob wins, "late Alice" simply doesn't share her secret, and since her compensation transaction mostly pays her own teammates, the Alice group only loses 1 BCH.
+
+However, they are forgetting that only Bob can claim the 12 BCH still in the main bet account!  The Alice group actually loses a total of 12 BCH (11 in the main bet and 1 in the refund transaction), which is 1 more BCH than they would lose if they simply allowed Bob to collect his winnings.
+
+We still generally consider that the scheme protects Bob from losing money if the participants behave irrationally because secret-withholding is compensated for.  Technically, the scheme isn't tamper-proof, but a malicious actor would have to go out of their way AND lose money in order to affect the bet.
+
+## Final Thoughts
+
+Due to the large security deposit, the practicality of the bet scheme is in question.  The same result could be accomplished with a dice like bet in many applications.  For example, 6 people betting each other could be simulated by each of them betting on a dice roll, with more flexibility in that not all 6 people would need to be real. However this scheme may serve as a building block other schemes and give us more ideas for the future.
 
 
 ## Authors
