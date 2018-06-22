@@ -110,8 +110,8 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x01  | Phase 1 is "Bet Offer Announcement" |
 | 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
 | 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
+| 20   | Alice Commitment | \<commitment> | Alice's commitment so Bob can build Alice's P2SH escrow address |
 | 20 | Target Address | \<target> | Optional.  Restricts offer to a specific bet participant. |
-| 32   | Alice Commitment | \<commitment> | Alice's commitment so Bob can build Alice's P2SH escrow address |
  
  
 ## Phase 2: Bet Participant Acceptance
@@ -127,7 +127,7 @@ OP_RETURN OUTPUT:
 | 1      | Phase | 0x02  | Phase 2 is " Bet Participant Acceptance" |
 | 32    | Bet Txn Id |\<host_opreturn_txn_id> | This lets Alice know Bob wants to bet. |
 |33    | Bob Multi-sig Pub Key  | \<bobPubKey>| This is the compressed public key that Alice should use when creating her p2sh input for the bet. |
-| 32   | Bob Commitment | \<commitment> | Bob's commitment so Alice can build Bob's P2SH escrow address |
+| 20  | Bob Commitment | \<commitment> | Bob's commitment so Alice can build Bob's P2SH escrow address |
  
 
 ## Phase 3: Bet Host Funding
