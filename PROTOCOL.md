@@ -111,7 +111,8 @@ OP_RETURN OUTPUT:
 | 1     | Bet Type | 0x01 | Denotes what kind of bet will be contructed. 0x01 for Coin flip. |
 | 8     | Amount   | \<amount> | Bet amount in Satohis for each participant. | 
 | 20 | Target Address | \<target> | Optional.  Restricts offer to a specific bet participant. |
-
+| 32   | Alice Commitment | \<commitment> | Alice's commitment so Bob can build Alice's P2SH escrow address |
+ 
  
 ## Phase 2: Bet Participant Acceptance
 
