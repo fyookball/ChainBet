@@ -1,4 +1,4 @@
-# ChainBet - protocol spec version 0.2
+# ChainBet - protocol spec version 0.3
 
 ## Abstract
 
