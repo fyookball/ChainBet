@@ -86,7 +86,7 @@ Each OP_RETURN transaction will be assumed to have outputs going back to the sen
 
 The OP_RETURN command is followed by a series of pushdata commands (each pushdata is represented using tags `<...>`) in the following order:
 
-`<lokad_id> <version_id, betType_id, phase_value> <phase_dependant_field_1> ... <phase_dependant_field_n>`
+`<protocol_id> <version_id, betType_id, phase_value> <phase_dependant_field_1> ... <phase_dependant_field_n>`
 
 The protocol_id is a [standard Terab 4-byte prefix](https://github.com/Lokad/Terab/blob/master/spec/opreturn-prefix-guideline.md) with a value of **0x00424554** (ASCII equivalent of "BET").  Following the Terab guidelines, the operation will utilize a pair of OP_PUSHDATA codes: one for the protocol_id and another for everything else in the payload.
 
