@@ -1,0 +1,32 @@
+{
+	"chainbet": {
+		"encodePhase1": [
+			{
+			}
+		],
+		"encodePhase2": [
+			{
+			}
+		],
+		"encodePhase3": [
+			{
+			}
+		],
+		"encodePhase4": [
+			{
+			}
+		],
+		"encodePhase5": [
+			{
+			}
+		],
+		"encodePhase6": [
+			{
+			}
+		],
+		"decode": [
+			{
+			}
+		]
+	}
+}

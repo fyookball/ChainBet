@@ -1,0 +1,10 @@
+[
+    {
+        "claimType": "",
+        "isSpent": false,
+        "betAmount": 0, 
+        "pubKey": "",
+        "block": 0,
+        "txId": ""
+    }
+]

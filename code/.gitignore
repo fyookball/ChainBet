@@ -1,0 +1,5 @@
+node_modules
+.nyc_output
+lib
+coverage
+examples/dice/wallet.json

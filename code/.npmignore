@@ -1,0 +1,5 @@
+examples
+src
+.vscode
+.nyc_output
+coverage
